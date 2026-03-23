@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>LiveOps Intelligence — Fashion Games Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bg:#F8F7F4;--bg2:#F0EFEB;--bg3:#E4E3DE;
+  --surface:rgba(255,255,255,.72);--surface-h:rgba(255,255,255,.88);
+  --glass:rgba(255,255,255,.55);--glass-border:rgba(0,0,0,.06);
+  --ga:#166534;--gb:#991B1B;--gc:#1E40AF;--gd:#5B21B6;
+  --ga-l:#DCFCE7;--gb-l:#FEE2E2;--gc-l:#DBEAFE;--gd-l:#EDE9FE;
+  --ga-s:rgba(22,101,52,.06);--gb-s:rgba(153,27,27,.06);--gc-s:rgba(30,64,175,.06);--gd-s:rgba(91,33,182,.06);
+  --r:14px;--r-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.04),0 4px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.08);
+  --ff-d:'Cormorant Garamond',Georgia,serif;
+  --ff-b:'Plus Jakarta Sans',system-ui,sans-serif;
+  --ff-m:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-b);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;font-size:13.5px;line-height:1.6}
+::selection{background:rgba(91,33,182,.12)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:10px}
+
+/* ── GLASS SURFACE ──────────────────── */
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+.card-dark{background:rgba(24,24,27,.94);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);box-shadow:var(--shadow-lg)}
+
+/* ── HEADER ──────────────────────────── */
+#hdr{position:sticky;top:0;z-index:200;background:rgba(248,247,244,.88);backdrop-filter:blur(24px) saturate(1.2);border-bottom:1px solid rgba(0,0,0,.06)}
+.hi{max-width:1360px;margin:0 auto}
+.ht{display:flex;align-items:center;gap:16px;padding:12px 32px 0}
+.hbrand{font-family:var(--ff-d);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+.hbrand em{color:var(--gc);font-style:italic}
+.hpill{border-radius:100px;padding:3px 12px;font-size:10px;font-weight:700;letter-spacing:.3px;color:#fff}
+.hpill.a{background:var(--ga)}.hpill.b{background:var(--gb)}.hpill.c{background:var(--gc)}.hpill.d{background:var(--gd)}
+.htags{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap}
+.tabs{display:flex;padding:0 32px;overflow-x:auto;scrollbar-width:none;gap:0;margin-top:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tb{background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--ff-b);padding:8px 16px 10px;white-space:nowrap;transition:all .15s;display:flex;flex-direction:column;gap:1px;opacity:.4}
+.tb.on{border-bottom-color:var(--ink);opacity:1}
+.tb:hover:not(.on){opacity:.7}
+.tb-n{font-family:var(--ff-m);font-size:9px;color:var(--ink4);font-weight:500}
+.tb-l{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.tb-s{font-size:9px;color:var(--ink4);font-weight:400}
+
+/* ── BODY ────────────────────────────── */
+#bd{max-width:1360px;margin:0 auto;padding:28px 32px 100px}
+.pane{display:none;animation:fadeIn .35s ease}.pane.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ──────────────────── */
+.sh{margin-bottom:22px}
+.sh .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink4);margin-bottom:6px}
+.sh h2{font-family:var(--ff-d);font-size:30px;font-weight:600;margin-bottom:6px;line-height:1.15;letter-spacing:-.02em}
+.sh p{font-size:13.5px;color:var(--ink2);max-width:700px;line-height:1.7;font-weight:400}
+.divider{margin:32px 0;border:none;border-top:1px solid var(--bg3)}
+
+/* ── INSIGHT CALLOUT ─────────────────── */
+.insight{border-radius:var(--r-sm);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin-bottom:18px;backdrop-filter:blur(8px)}
+.insight-icon{font-size:17px;flex-shrink:0;margin-top:0}
+.insight strong{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:3px}
+.insight p{font-size:13px;line-height:1.65;color:var(--ink2)}
+.insight.green{background:rgba(22,101,52,.05);border-left:3px solid var(--ga)}
+.insight.red{background:rgba(153,27,27,.05);border-left:3px solid var(--gb)}
+.insight.blue{background:rgba(30,64,175,.05);border-left:3px solid var(--gc)}
+.insight.amber{background:rgba(180,83,9,.05);border-left:3px solid #B45309}
+.insight.muted{background:rgba(0,0,0,.025);border-left:3px solid var(--ink4)}
+
+/* ── CHIP ────────────────────────────── */
+.chip{border-radius:5px;padding:2px 8px;font-size:10px;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:3px;letter-spacing:.2px}
+.chip.link{cursor:pointer;transition:filter .12s}.chip.link:hover{filter:brightness(.88)}
+
+/* ── FLOW ────────────────────────────── */
+.flow{display:flex;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--glass-border);margin-bottom:24px;backdrop-filter:blur(8px)}
+.flow-step{flex:1;padding:18px 22px;position:relative}
+.flow-step::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--ink4);z-index:1;font-weight:300}
+.flow-step:last-child::after{display:none}
+.flow-n{font-family:var(--ff-m);font-size:9px;font-weight:600;opacity:.4;margin-bottom:5px;letter-spacing:.5px}
+.flow-title{font-family:var(--ff-d);font-weight:700;font-size:15px;margin-bottom:3px}
+.flow-sub{font-size:11.5px;color:var(--ink2);line-height:1.5}
+
+/* ── ENHANCED MATRIX ─────────────────── */
+.matrix{border-radius:var(--r);overflow:hidden;border:1px solid var(--glass-border);margin-bottom:28px;box-shadow:var(--shadow)}
+.matrix-hd{display:grid;grid-template-columns:160px repeat(4,1fr);background:var(--ink)}
+.matrix-hd-cell{padding:12px 14px;text-align:center}
+.matrix-hd-cell:first-child{text-align:left}
+.matrix-row{display:grid;grid-template-columns:160px repeat(4,1fr)}
+.matrix-lbl{padding:12px 14px;display:flex;flex-direction:column;gap:3px;border-right:1px solid var(--glass-border);border-top:1px solid var(--glass-border)}
+.matrix-lbl-name{font-family:var(--ff-d);font-size:14px;font-weight:700}
+.matrix-lbl-meta{font-size:10px;color:var(--ink3);line-height:1.4}
+.matrix-cell{padding:8px 10px;border-right:1px solid var(--glass-border);border-top:1px solid var(--glass-border);display:flex;flex-direction:column;gap:6px;min-height:90px}
+.mc-empty{display:flex;align-items:center;justify-content:center;color:var(--bg3);font-size:20px}
+.ev-tag{border-radius:var(--r-sm);padding:7px 10px;cursor:pointer;transition:all .15s;border:1px solid rgba(0,0,0,.06)}
+.ev-tag:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.ev-tag-code{font-family:var(--ff-m);font-size:9px;font-weight:600;margin-bottom:2px}
+.ev-tag-name{font-size:11px;font-weight:600;line-height:1.25;margin-bottom:3px}
+.ev-tag-meta{display:flex;flex-wrap:wrap;gap:3px}
+
+/* ── ARCHETYPE CARDS ─────────────────── */
+.arch-card{border-radius:var(--r);padding:18px 20px;background:var(--surface);border:1px solid var(--glass-border);backdrop-filter:blur(8px);transition:all .15s}
+.arch-card:hover{border-color:rgba(0,0,0,.12);box-shadow:var(--shadow)}
+
+/* ── CD CARDS ────────────────────────── */
+.cd-card{border-radius:var(--r-sm);padding:14px 16px;transition:all .15s}
+.cd-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.cd-card.wh{background:rgba(22,101,52,.04);border:1px solid rgba(22,101,52,.1)}
+.cd-card.bh{background:rgba(153,27,27,.04);border:1px solid rgba(153,27,27,.1)}
+
+/* ── PILLAR CARDS ────────────────────── */
+.pcard{border-radius:var(--r);overflow:hidden;margin-bottom:14px;border:1px solid var(--glass-border);backdrop-filter:blur(8px)}
+
+/* ── EVENT ACCORDION ─────────────────── */
+.ev-wrap{margin-bottom:6px;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--glass-border);transition:all .15s}
+.ev-wrap:hover{box-shadow:var(--shadow)}
+.ev-hd{display:flex;align-items:stretch;cursor:pointer}
+.ev-code{width:48px;display:flex;align-items:center;justify-content:center;font-family:var(--ff-m);font-size:11px;font-weight:600;flex-shrink:0;color:#fff}
+.ev-main{flex:1;padding:11px 14px;background:var(--surface);display:flex;align-items:center;gap:10px;flex-wrap:wrap;transition:background .12s}
+.ev-hd:hover .ev-main{background:var(--surface-h)}
+.ev-name{font-weight:700;font-size:13px;min-width:150px}
+.ev-chips{display:flex;gap:4px;flex-wrap:wrap}
+.ev-arr{padding:0 12px;background:rgba(255,255,255,.4);display:flex;align-items:center;color:var(--ink4);font-size:16px;transition:transform .15s;border-left:1px solid var(--glass-border)}
+.ev-wrap.open .ev-arr{transform:rotate(45deg)}
+.ev-body{display:none;border-top:1px solid var(--glass-border);background:rgba(255,255,255,.92)}
+.ev-body.open{display:grid;grid-template-columns:1.8fr 1.4fr 1.4fr}
+.ev-col{padding:16px 18px;border-right:1px solid rgba(0,0,0,.04)}
+.ev-col:last-child{border-right:none}
+.ev-col-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:6px}
+.ev-col-body{font-size:12.5px;color:var(--ink2);line-height:1.65}
+.kpill{border-radius:var(--r-sm);padding:8px 11px;margin-top:8px;font-size:12px;line-height:1.5}
+.kpill.ok{background:rgba(22,101,52,.05);border-left:3px solid var(--ga);color:var(--ink2)}
+.kpill.warn{background:rgba(180,83,9,.05);border-left:3px solid #B45309;color:var(--ink2)}
+.hat-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+
+/* ── UMBRELLA ────────────────────────── */
+.umb-subs{display:grid;grid-template-columns:repeat(3,1fr)}
+.umb-sub{padding:14px 16px;border:1px solid var(--glass-border)}
+.umb-sub-name{font-weight:700;font-size:12.5px;margin-bottom:3px}
+.umb-sub-desc{font-size:11px;color:var(--ink2);line-height:1.5;margin-bottom:6px}
+.tier-badge{border-radius:5px;padding:2px 9px;font-size:10px;font-weight:700}
+.tier-tbl{border-radius:var(--r);overflow:hidden;margin-bottom:20px;border:1px solid var(--glass-border);backdrop-filter:blur(8px)}
+.tt-row{display:grid;grid-template-columns:140px 1fr 1fr 90px;padding:14px 18px;border-bottom:1px solid var(--glass-border);align-items:start}
+.tt-row:last-child{border-bottom:none}
+.hell-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.hell-card{border-radius:var(--r-sm);padding:14px 16px;border:1px solid var(--glass-border);background:var(--surface);position:relative;backdrop-filter:blur(8px)}
+.hell-type-badge{position:absolute;top:0;right:10px;font-family:var(--ff-m);font-size:9px;padding:3px 8px;border-radius:0 0 6px 6px;color:#fff;font-weight:600}
+
+/* ── ASSESSMENT ──────────────────────── */
+.ass-table{border-radius:var(--r);overflow:auto;border:1px solid var(--glass-border);box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.ass-table table{width:100%;border-collapse:collapse;min-width:880px}
+.ass-table th{background:var(--ink);padding:10px 12px;font-size:9.5px;font-family:var(--ff-m);font-weight:600;color:rgba(255,255,255,.5);text-align:left;white-space:nowrap}
+.ass-table td{padding:9px 12px;font-size:12px;border-bottom:1px solid var(--glass-border);color:var(--ink2);vertical-align:top;line-height:1.5}
+.ass-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.ass-table tr:hover td{background:rgba(255,255,255,.6)}
+.cdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+.dep-tag{background:rgba(0,0,0,.04);color:var(--ink3);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:600;display:inline-block;margin:1px 2px}
+
+/* ── KPI ─────────────────────────────── */
+.kpi-filter{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.kpi-btn{border:none;cursor:pointer;font-family:var(--ff-b);border-radius:100px;padding:7px 16px;font-size:11.5px;font-weight:600;transition:all .15s;letter-spacing:.2px}
+.kpi-card{border-radius:var(--r-sm);overflow:hidden;margin-bottom:8px;border:1px solid var(--glass-border);backdrop-filter:blur(8px)}
+.kpi-hd{padding:10px 16px;border-bottom:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+.kpi-body{display:grid;grid-template-columns:1.5fr 1.1fr 1.1fr 1.8fr;gap:14px;padding:14px 16px;background:rgba(255,255,255,.85)}
+.kpi-sub-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:4px}
+.formula{font-family:var(--ff-m);font-size:11px;background:rgba(0,0,0,.025);border:1px solid var(--glass-border);border-radius:6px;padding:7px 10px;line-height:1.6;color:var(--ink2)}
+
+/* ── COMPETITOR ──────────────────────── */
+.comp-sel-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.comp-btn{border:1.5px solid transparent;cursor:pointer;font-family:var(--ff-b);border-radius:100px;padding:7px 18px;font-size:11.5px;font-weight:600;transition:all .15s;background:var(--surface)}
+.comp-mech{border-radius:var(--r-sm);overflow:hidden;margin-bottom:10px;border:1px solid var(--glass-border)}
+.cm-hd{padding:10px 16px;display:flex;align-items:center;gap:9px;background:var(--surface);border-bottom:1px solid var(--glass-border)}
+.cm-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:14px 16px;background:rgba(255,255,255,.85)}
+.cm-sub-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:3px}
+.cm-foot{padding:8px 16px;background:rgba(255,255,255,.4);border-top:1px solid var(--glass-border);display:flex;align-items:center;gap:8px}
+.cm-flow{font-family:var(--ff-m);font-size:10px;color:var(--ink3)}
+
+/* ── FASHION MECHANICS ───────────────── */
+.fm-wrap{border-radius:var(--r);overflow:hidden;margin-bottom:8px;border:1px solid var(--glass-border)}
+.fm-hd{padding:13px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:var(--surface);transition:background .12s}
+.fm-hd:hover{background:var(--surface-h)}
+.fm-body{display:none;border-top:1px solid var(--glass-border);padding:16px 18px;background:rgba(255,255,255,.88)}
+.fm-body.open{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.fm-sub-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:6px}
+
+/* ── METRIC CARDS ────────────────────── */
+.metric-card{border-radius:var(--r-sm);padding:13px 16px;background:var(--surface);border:1px solid var(--glass-border);backdrop-filter:blur(8px)}
+
+/* ── RESPONSIVE ──────────────────────── */
+@media(max-width:900px){
+  .matrix-hd,.matrix-row{grid-template-columns:100px repeat(4,1fr)}
+  .umb-subs,.hell-grid{grid-template-columns:1fr}
+  .ev-body.open,.fm-body.open,.cm-body,.kpi-body,.tt-row{grid-template-columns:1fr}
+  .flow{flex-direction:column}.flow-step::after{display:none}
+  .tabs{padding:0 14px}#bd{padding:16px 14px 60px}
+  .ht{flex-direction:column;align-items:flex-start;gap:8px}.htags{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<div id="hdr"><div class="hi">
+  <div class="ht">
+    <div><div class="hbrand">LiveOps <em>Intelligence</em></div><div style="font-size:10px;color:var(--ink4);margin-top:1px;font-weight:500;letter-spacing:.3px">Fashion Games · CW Portfolio · 10 Titles</div></div>
+    <div class="htags"><span class="hpill a">Engagement</span><span class="hpill b">Monetization</span><span class="hpill c">Social</span><span class="hpill d">Progression</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tb on" data-t="fnd"><span class="tb-n">00</span><span class="tb-l">Foundation</span><span class="tb-s">overview · CDs · archetypes · matrix</span></button>
+    <button class="tb" data-t="evs"><span class="tb-n">01</span><span class="tb-l">Events</span><span class="tb-s">18 types · full detail</span></button>
+    <button class="tb" data-t="umb"><span class="tb-n">02</span><span class="tb-l">Umbrella</span><span class="tb-s">3-tier · hell events</span></button>
+    <button class="tb" data-t="ass"><span class="tb-n">03</span><span class="tb-l">Assessment</span><span class="tb-s">complexity · dependency</span></button>
+    <button class="tb" data-t="kpi"><span class="tb-n">04</span><span class="tb-l">KPI</span><span class="tb-s">15 metrics · 4 categories</span></button>
+    <button class="tb" data-t="bld"><span class="tb-n">05</span><span class="tb-l">Event Builder <span style="background:#FEF3C7;color:#92400E;border-radius:4px;padding:1px 6px;font-size:8px;font-weight:700;margin-left:4px;vertical-align:middle">WIP</span></span><span class="tb-s">template tool · on the way</span></button>
+    <button class="tb" data-t="ref"><span class="tb-n">06</span><span class="tb-l">Reference</span><span class="tb-s">competitors · mechanics</span></button>
+  </div>
+</div></div>
+
+<div id="bd">
+
+<!-- ══ 00 FOUNDATION ══════════════════════════════════════ -->
+<div class="pane on" id="p-fnd">
+
+<!-- INTRO -->
+<div class="card" style="padding:20px 24px;margin-bottom:18px">
+  <div style="font-family:var(--ff-d);font-size:22px;font-weight:600;margin-bottom:6px">LiveOps Intelligence — Fashion Games Portfolio</div>
+  <p style="font-size:13px;color:var(--ink2);line-height:1.7;max-width:720px">Tài liệu tổng hợp framework LiveOps cho 10 titles fashion/dress-up games với Clothing Warehouse (CW) chung. Bao gồm: player psychology (Octalysis), 18 event types, 6 player archetypes, calendar layer mapping, và KPI reference.</p>
+</div>
+
+<div class="insight red"><span class="insight-icon">⚠</span><div><strong>5 Gaps hiện tại</strong><p>Không có user segmentation · Coins/ads chưa có strategy · Không có event taxonomy · Không phân vùng regional · 10 titles hoạt động như silos.</p></div></div>
+
+<!-- STRATEGY FLOW -->
+<div style="margin:24px 0 10px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink4)">Strategic Architecture</div>
+<div class="flow card">
+  <div class="flow-step" style="background:var(--ga-s)"><div class="flow-n">PROBLEM</div><div class="flow-title">No Psychology</div><div class="flow-sub">Events by instinct. Mixed monetization.</div></div>
+  <div class="flow-step" style="background:var(--gc-s)"><div class="flow-n">FOUNDATION</div><div class="flow-title">18 Event Types</div><div class="flow-sub">MECE taxonomy. 4 pillars. Octalysis.</div></div>
+  <div class="flow-step" style="background:var(--gd-s)"><div class="flow-n">ENGINE</div><div class="flow-title">Segmentation</div><div class="flow-sub">RFM + spending tiers. 2–3× conversion.</div></div>
+  <div class="flow-step" style="background:var(--gb-s)"><div class="flow-n">MOAT</div><div class="flow-title">CDP → CW → Offers</div><div class="flow-sub">10 titles → 1 unified intelligence.</div></div>
+</div>
+
+<hr class="divider"/>
+
+<!-- OCTALYSIS -->
+<div class="sh" id="sec-cd"><div class="lbl">Framework · Yu-kai Chou, 2012</div><h2>Octalysis — 8 Core Drives</h2><p>Octalysis là framework phân tích motivation trong game design, chia thành 8 Core Drives giải thích tại sao người chơi hành động. Mỗi mechanic trong game hoạt động vì kích hoạt ít nhất 1 drive. White Hat (CD1–5) tạo cảm giác tích cực, bền vững. Black Hat (CD6–8) tạo urgency nhưng dễ gây burnout. Target: <strong>≥60% White Hat / ≤40% Black Hat per week.</strong></p></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px">
+  <div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ga);margin-bottom:8px;padding:6px 12px;background:var(--ga-s);border-radius:6px;border:1px solid rgba(22,101,52,.1)">⬜ White Hat (CD1–5) — 60% target</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="cd-white"></div>
+  </div>
+  <div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gb);margin-bottom:8px;padding:6px 12px;background:var(--gb-s);border-radius:6px;border:1px solid rgba(153,27,27,.1)">⬛ Black Hat (CD6–8) — Max 40%</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" id="cd-black"></div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- ARCHETYPES (Bartle-informed) -->
+<div class="sh" id="sec-arch"><div class="lbl">Player Psychology · Bartle Taxonomy adapted</div><h2>6 Player Archetypes</h2><p>Dựa trên nghiên cứu của Richard Bartle (1996) phân loại 4 player types: Achiever ♦, Explorer ♠, Socializer ♥, Killer ♣. Trong fashion games, "Killer" → "Competitor" (driven by status), thêm 2 archetypes đặc thù: Collector (wardrobe completionism) và Bargain Hunter (deal-seeking conversion).</p></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px" id="arch-grid"></div>
+
+<hr class="divider"/>
+
+<!-- ENHANCED MATRIX (merged: layers + pillars + archetype + CD) -->
+<div class="sh"><div class="lbl">Master View</div><h2>18 Events × Layer × Pillar</h2><p>Matrix mapping 18 event types theo 2 trục: <strong>Layer</strong> (tần suất vận hành: Daily → Weekly → Monthly → Lifecycle) và <strong>Pillar</strong> (mục tiêu business: Engagement, Monetization, Social, Progression). Click event tag → xem chi tiết ở tab Events.</p></div>
+<div class="insight muted" style="margin-bottom:14px"><span class="insight-icon">💡</span><div><strong>Đọc matrix thế nào?</strong><p><strong>Ưu điểm:</strong> Nhìn 1 lần biết event nào thiếu ở layer/pillar nào, tránh trùng lặp, cân bằng White/Black Hat per week. <strong>Lưu ý:</strong> Matrix không show priority hay dependency — xem tab Assessment cho thông tin đó. Ô trống = chưa cần hoặc chưa có resource, không phải gap.</p></div></div>
+<div class="matrix" id="main-matrix"></div>
+
+<div class="card" style="padding:16px 22px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+  <div style="flex:1;min-width:280px">
+    <div style="font-family:var(--ff-d);font-size:15px;font-weight:600;margin-bottom:6px">Octalysis Balance — Per Week</div>
+    <div style="height:8px;border-radius:4px;background:linear-gradient(to right,var(--ga) 0%,var(--ga) 60%,var(--gb) 60%,var(--gb) 100%);margin-bottom:5px"></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700"><span style="color:var(--ga)">⬜ 60% White Hat</span><span style="color:var(--gb)">⬛ 40% Black Hat</span></div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- KEY METRICS -->
+<div class="sh"><div class="lbl">Quick Reference</div><h2>12 Key Metrics</h2><p>Tóm tắt 12 metrics quan trọng nhất để đánh giá LiveOps performance. Mỗi metric có benchmark và warning signal. Chi tiết formula + cách sử dụng ở tab KPI.</p></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px" id="metrics-overview"></div>
+
+</div><!-- /p-fnd -->
+
+<!-- ══ 01 EVENTS ═════════════════════════════════════════ -->
+<div class="pane" id="p-evs">
+<div class="sh"><div class="lbl">Event Library</div><h2>18 Event Types</h2><p>Filter theo pillar. Click event để xem chi tiết. Tags link về CD và Archetype ở Foundation tab.</p></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px" id="evs-filter-bar"></div>
+<div id="evs-display"></div>
+</div>
+
+<!-- ══ 02 UMBRELLA ═══════════════════════════════════════ -->
+<div class="pane" id="p-umb">
+<div class="sh"><div class="lbl">Themed / Seasonal Event</div><h2>Umbrella Strategy</h2><p>Player thấy <strong>1 event</strong>. Team vận hành <strong>6–9 mechanisms</strong> đồng thời dưới 1 narrative.</p></div>
+<div class="insight green"><span class="insight-icon">☂</span><div><strong>Why "Umbrella"?</strong><p>Cultural moments (Tết, Ramadan, Halloween) tạo CD1 (Epic Meaning) mạnh hơn single-mechanic events. 3 tầng Free/Earnable/Premium chạy đồng thời dưới cùng 1 narrative.</p></div></div>
+
+<div style="margin-bottom:8px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink4)">Example: Lunar New Year Festival — 3 weeks</div>
+<div class="card" style="overflow:hidden;margin-bottom:24px">
+  <div style="text-align:center;padding:14px 20px;font-family:var(--ff-d);font-size:17px;font-weight:600;background:var(--gd-s);border-bottom:1px solid var(--glass-border)">🌸 Lunar New Year Festival</div>
+  <div class="umb-subs">
+    <div class="umb-sub" style="background:rgba(22,101,52,.03)"><div class="umb-sub-name">Daily Login Track</div><div class="umb-sub-desc">7-day escalating Tết rewards</div><span class="tier-badge" style="background:var(--ga-l);color:var(--ga)">Tầng 1 — Free</span></div>
+    <div class="umb-sub" style="background:rgba(22,101,52,.03)"><div class="umb-sub-name">Themed Daily Quests</div><div class="umb-sub-desc">Festival task chain</div><span class="tier-badge" style="background:var(--ga-l);color:var(--ga)">Tầng 1 — Free</span></div>
+    <div class="umb-sub" style="background:rgba(22,101,52,.03)"><div class="umb-sub-name">Styling Challenge (Tết)</div><div class="umb-sub-desc">Traditional outfit, peer vote</div><span class="tier-badge" style="background:var(--ga-l);color:var(--ga)">Tầng 1 — Free</span></div>
+    <div class="umb-sub" style="background:rgba(180,83,9,.03)"><div class="umb-sub-name">Story Quest — Lore</div><div class="umb-sub-desc">Festival narrative chapters</div><span class="tier-badge" style="background:#FEF3C7;color:#92400E">Tầng 2 — Earnable</span></div>
+    <div class="umb-sub" style="background:rgba(180,83,9,.03)"><div class="umb-sub-name">Co-op Guild Goal</div><div class="umb-sub-desc">Team prepares for festival</div><span class="tier-badge" style="background:#FEF3C7;color:#92400E">Tầng 2 — Earnable</span></div>
+    <div class="umb-sub" style="background:rgba(180,83,9,.03)"><div class="umb-sub-name">Event Coin Shop</div><div class="umb-sub-desc">Seasonal items via coins</div><span class="tier-badge" style="background:#FEF3C7;color:#92400E">Tầng 2 — Earnable</span></div>
+    <div class="umb-sub" style="background:var(--gb-s)"><div class="umb-sub-name">Limited Gacha Banner</div><div class="umb-sub-desc">Exclusive Tết suit, pity timer</div><span class="tier-badge" style="background:var(--gb-l);color:var(--gb)">Tầng 3 — Premium</span></div>
+    <div class="umb-sub" style="background:var(--gb-s)"><div class="umb-sub-name">Recharge Milestone</div><div class="umb-sub-desc">Cumulative spend nodes</div><span class="tier-badge" style="background:var(--gb-l);color:var(--gb)">Tầng 3 — Premium</span></div>
+    <div class="umb-sub" style="background:var(--gb-s)"><div class="umb-sub-name">Premium Tryout</div><div class="umb-sub-desc">Try premium items in sub-task → must buy</div><span class="tier-badge" style="background:var(--gb-l);color:var(--gb)">Tầng 3 — Premium</span></div>
+  </div>
+  <div style="text-align:center;padding:12px;font-size:12px;color:var(--ink3);border-top:1px solid var(--glass-border)"><strong style="color:var(--ink)">Player sees: 1 event.</strong> Team operates: <strong style="color:var(--ink)">9 mechanisms.</strong></div>
+</div>
+
+<!-- 3-TIER with archetype+event mapping -->
+<div style="margin-bottom:8px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink4)">3-Tier Anatomy — Events × Archetypes × Revenue</div>
+<div class="tier-tbl card">
+  <div class="tt-row" style="background:var(--ink)">
+    <div style="padding:9px 18px"><span style="font-size:9.5px;font-weight:600;color:rgba(255,255,255,.4);font-family:var(--ff-m)">TIER</span></div>
+    <div style="color:rgba(255,255,255,.4);font-size:9.5px;font-weight:600;font-family:var(--ff-m);padding:9px 16px">EVENT TYPES + CDs</div>
+    <div style="color:rgba(255,255,255,.4);font-size:9.5px;font-weight:600;font-family:var(--ff-m);padding:9px 16px">ARCHETYPES</div>
+    <div style="color:rgba(255,255,255,.4);font-size:9.5px;font-weight:600;font-family:var(--ff-m);padding:9px 8px;text-align:right">REV.</div>
+  </div>
+  <div class="tt-row" style="background:rgba(22,101,52,.03)">
+    <div><div style="font-family:var(--ff-d);font-size:16px;font-weight:600;color:var(--ga)">Tầng 1</div><div style="font-size:10.5px;color:var(--ga);margin-top:2px">Free / Coin</div></div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.6;padding:0 16px"><strong>A2</strong> Login · <strong>A3</strong> Quests · <strong>A1</strong> Styling · <strong>A5</strong> Story<br><span style="font-size:10.5px;color:var(--ga)">CD1 Meaning · CD2 Accomplishment · CD3 Creativity</span></div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.6;padding:0 16px"><strong>All 6 archetypes</strong> — Explorer, Socialite, Achiever primary. F2P creates voting base for Tầng 3.</div>
+    <div style="font-size:13px;color:var(--ga);font-weight:700;text-align:right;padding:14px 8px">~5%</div>
+  </div>
+  <div class="tt-row" style="background:rgba(180,83,9,.03)">
+    <div><div style="font-family:var(--ff-d);font-size:16px;font-weight:600;color:#92400E">Tầng 2</div><div style="font-size:10.5px;color:#92400E;margin-top:2px">Effort-gated</div></div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.6;padding:0 16px"><strong>C1</strong> Co-op · <strong>D2</strong> Series · <strong>A6</strong> Collection Craft · Coin shop · Milestones<br><span style="font-size:10.5px;color:#92400E">CD2 Progress · CD4 Ownership · CD5 Social</span></div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.6;padding:0 16px"><strong>Achiever</strong> (milestones) · <strong>Socialite</strong> (co-op) · <strong>Collector</strong> (coin shop)</div>
+    <div style="font-size:13px;color:#92400E;font-weight:700;text-align:right;padding:14px 8px">~15%</div>
+  </div>
+  <div class="tt-row" style="background:var(--gb-s)">
+    <div><div style="font-family:var(--ff-d);font-size:16px;font-weight:600;color:var(--gb)">Tầng 3</div><div style="font-size:10.5px;color:var(--gb);margin-top:2px">Diamond/IAP</div></div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.6;padding:0 16px"><strong>B1</strong> Gacha · <strong>B2</strong> Hell · <strong>B5</strong> Recharge · <strong>B3</strong> Flash · <strong>B6</strong> Tryout · <strong>B8</strong> Rolling · <strong>C3</strong> Collab<br><span style="font-size:10.5px;color:var(--gb)">CD4 Ownership · CD6 Scarcity · CD8 Sunk Cost</span></div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.6;padding:0 16px"><strong>Collector</strong> (primary) · <strong>Achiever</strong> (recharge) · <strong>Bargain Hunter</strong> (flash)</div>
+    <div style="font-size:13px;color:var(--gb);font-weight:700;text-align:right;padding:14px 8px">~80%</div>
+  </div>
+</div>
+
+<div class="insight amber" style="margin-top:10px"><span class="insight-icon">🔁</span><div><strong>10 Titles — Shared Assets</strong><p>1 shared narrative + 1 visual kit. Each title configures differently. Cost: +30–40% — <strong>not 10×.</strong> Hell Event case studies và competitor analysis → xem Tab 05 Reference.</p></div></div>
+
+</div><!-- /p-umb -->
+
+<!-- ══ 03 ASSESSMENT ═════════════════════════════════════ -->
+<div class="pane" id="p-ass">
+<div class="sh"><div class="lbl">Event Assessment Matrix</div><h2>18 Events — Complexity · Dependency · Template</h2><p>Đánh giá: complexity, dependencies, template sẵn được không, chạy bao nhiêu cái/tháng.</p></div>
+<div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+  <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink2)"><span class="cdot" style="background:var(--ga)"></span>Low</div>
+  <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink2)"><span class="cdot" style="background:#B45309"></span>Med</div>
+  <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink2)"><span class="cdot" style="background:var(--gb)"></span>High</div>
+</div>
+<div class="ass-table" id="ass-table"></div>
+<div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+  <div class="insight green"><span class="insight-icon">📋</span><div><strong>Template Strategy</strong><p>L1+L2 events = setup once, run forever via remote config. Top games: 73–89 events/month. Focus template effort vào events này trước.</p></div></div>
+  <div class="insight amber"><span class="insight-icon">🎯</span><div><strong>Anti-Fatigue</strong><p>Hell Events max 1/quarter. Collab max 1/quarter. Gacha max 2 concurrent. Season Pass = 1 permanent. Flash Sales: vary hook item every time.</p></div></div>
+</div>
+</div>
+
+<!-- ══ 04 KPI ════════════════════════════════════════════ -->
+<div class="pane" id="p-kpi">
+<div class="sh"><div class="lbl">Measurement</div><h2>KPI Reference</h2><p>Formula + benchmark + red flag + how to use.</p></div>
+<div class="kpi-filter" id="kpi-sel"></div>
+<div id="kpi-content"></div>
+</div>
+
+<!-- ══ 05 EVENT BUILDER ═════════════════════════════════ -->
+<div class="pane" id="p-bld">
+<div class="sh"><div class="lbl">LiveOps Event Template</div><h2>Event Builder</h2><p>Template fields cần điền khi tạo 1 LiveOps event mới. Dựa trên PlayFab LiveOps Guide, project knowledge, và best practices từ Supercell/King. Điền đầy đủ các fields này = event có thể import vào remote config và chạy cross-title.</p></div>
+
+<div class="insight amber" style="margin-bottom:16px"><span class="insight-icon">🚧</span><div><strong>Work In Progress</strong><p>Builder đang trong giai đoạn phát triển. Fields hiện tại là draft — cần validate với team Dev + QA trước khi finalize thành production template. Feedback welcome.</p></div></div>
+
+<div class="insight muted"><span class="insight-icon">📋</span><div><strong>Workflow</strong><p>Game Designer điền template → Import vào Dev environment → QA test (dùng Debug Menu force start) → Fix errors → Import vào Release → Event date đến → Players thấy event.</p></div></div>
+
+<div id="builder-form"></div>
+</div>
+
+<!-- ══ 06 REFERENCE ══════════════════════════════════════ -->
+<div class="pane" id="p-ref">
+
+<!-- HELL EVENT DEEP DIVE -->
+<div class="sh"><div class="lbl">High-Spend Mechanics Across Industry</div><h2>Hell Event & Premium Event Case Studies</h2><p>Hell events = the most expensive limited-time events in fashion gacha games. Reliably double baseline revenue. The node/milestone structure creates escalating sunk-cost commitment.</p></div>
+
+<div class="insight red"><span class="insight-icon">🔥</span><div><strong>Why "Hell" Events Work</strong><p>5 reinforcing mechanisms: (1) Sunk cost via nodes — walking away wastes prior investment. (2) FOMO — suits never return after 2 reruns. (3) Variable reinforcement — random drops at each pull. (4) Currency obfuscation — $ → gems → pulls hides real cost. (5) Social pressure — incomplete suits are visible to peers.</p></div></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+  <div>
+    <div style="margin-bottom:8px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink4)">Love Nikki — Classic Node Format</div>
+    <div class="hell-grid">
+      <div class="hell-card"><div class="hell-type-badge" style="background:var(--gb)">Classic</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:55px">Sky & Sea</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Node 1</span><span style="font-family:var(--ff-m);font-size:11px;font-weight:500">450◆</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Node 5</span><span style="font-family:var(--ff-m);font-size:11px;font-weight:500;color:var(--gb)">6,600◆</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Duration</span><span style="font-family:var(--ff-m);font-size:11px">7 days</span></div></div>
+      <div class="hell-card"><div class="hell-type-badge" style="background:#7C2D12">Max Cost</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:55px">Flowing Garden</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Minor suits</span><span style="font-family:var(--ff-m);font-size:11px">~6,690◆</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Full</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~27,000◆</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">With Live2D</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~28,800◆</span></div></div>
+    </div>
+    <div class="hell-grid" style="margin-top:4px">
+      <div class="hell-card"><div class="hell-type-badge" style="background:var(--gd)">New Gen</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:55px">True Road</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Format</span><span style="font-family:var(--ff-m);font-size:11px">Multi-pavilion 100◆/pull</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Full</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~28,800◆ (~$450)</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Duration</span><span style="font-family:var(--ff-m);font-size:11px">15–18 days</span></div></div>
+      <div class="hell-card"><div class="hell-type-badge" style="background:#0E7490">Blood Moon</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:55px">Blood Moon</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">5 nodes</span><span style="font-family:var(--ff-m);font-size:11px">150→7,650◆</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Grand suit</span><span style="font-family:var(--ff-m);font-size:11px">Blood Lust (Node 5)</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Duration</span><span style="font-family:var(--ff-m);font-size:11px">10 days</span></div></div>
+    </div>
+  </div>
+  <div>
+    <div style="margin-bottom:8px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink4)">Competitor Hell Event Equivalents</div>
+    <div class="hell-grid">
+      <div class="hell-card"><div class="hell-type-badge" style="background:var(--gd)">Shining Nikki</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:75px">Double UR Event</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Pulls</span><span style="font-family:var(--ff-m);font-size:11px">340–420 pulls</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Cost</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~$500–700 USD</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Pity</span><span style="font-family:var(--ff-m);font-size:11px">UR per 25 pulls</span></div></div>
+      <div class="hell-card"><div class="hell-type-badge" style="background:#512DA8">Infinity Nikki</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:75px">Resonance Banner</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Max pulls</span><span style="font-family:var(--ff-m);font-size:11px">180 pulls</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Cost</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~$333 USD</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Feature</span><span style="font-family:var(--ff-m);font-size:11px">Ability outfits</span></div></div>
+    </div>
+    <div class="hell-grid" style="margin-top:4px">
+      <div class="hell-card"><div class="hell-type-badge" style="background:#C2185B">Life Makeover</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:75px">6★ Lightchase</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">Full set</span><span style="font-family:var(--ff-m);font-size:11px">~175 pulls</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Cost</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~$250–350 USD</span></div></div>
+      <div class="hell-card"><div class="hell-type-badge" style="background:#00796B">Genshin Impact</div><div style="font-weight:700;font-size:13px;margin-bottom:9px;padding-right:75px">C6 Character</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--glass-border);font-size:12px"><span style="color:var(--ink3)">1 copy pity</span><span style="font-family:var(--ff-m);font-size:11px">180 pulls (~$360)</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:var(--ink3)">Full C6</span><span style="font-family:var(--ff-m);font-size:11px;color:var(--gb)">~$900–2,145</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="padding:14px 18px;margin-bottom:24px">
+  <div style="font-family:var(--ff-d);font-size:15px;font-weight:600;margin-bottom:8px">Hell Event Design Rules</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;color:var(--ink2)">
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;gap:8px"><span style="color:var(--ga);font-weight:700;flex-shrink:0">✓</span>Always 1 free pull/day + welfare path for F2P</div>
+      <div style="display:flex;gap:8px"><span style="color:var(--ga);font-weight:700;flex-shrink:0">✓</span>Show "X◆ until next node" progress UI</div>
+      <div style="display:flex;gap:8px"><span style="color:var(--ga);font-weight:700;flex-shrink:0">✓</span>Always layer concurrent Recharge (B5) — double-dip</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;gap:8px"><span style="color:var(--ga);font-weight:700;flex-shrink:0">✓</span>Max 2 reruns → move to Wish Gate permanent</div>
+      <div style="display:flex;gap:8px"><span style="color:var(--ga);font-weight:700;flex-shrink:0">✓</span>Node 1 must be Dolphin-accessible (~$5–10)</div>
+      <div style="display:flex;gap:8px"><span style="color:var(--gb);font-weight:700;flex-shrink:0">✗</span><strong>QUARTERLY MAX.</strong> Strongest Black Hat (CD8 sunk cost).</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- COMPETITOR MECHANICS + FASHION MECHANICS -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:28px">
+  <div><div class="sh"><div class="lbl">Industry</div><h2>Competitor Mechanics</h2></div><div class="comp-sel-row" id="comp-sel"></div><div id="comp-content"></div></div>
+  <div><div class="sh"><div class="lbl">Fashion-Specific</div><h2>Mechanics Library</h2></div><div id="fm-content"></div></div>
+</div>
+</div>
+
+</div><!-- #bd -->
+
+<script>
+const PC={A:"#166534",B:"#991B1B",C:"#1E40AF",D:"#5B21B6"};
+const PCL={A:"#DCFCE7",B:"#FEE2E2",C:"#DBEAFE",D:"#EDE9FE"};
+const PCS={A:"rgba(22,101,52,.06)",B:"rgba(153,27,27,.06)",C:"rgba(30,64,175,.06)",D:"rgba(91,33,182,.06)"};
+const OBJ_C={Retention:"#1E40AF",Engagement:"#166534",Monetization:"#991B1B"};
+const LC={DAILY:"#166534",WEEKLY:"#1E40AF",MONTHLY:"#5B21B6",LIFECYCLE:"#991B1B"};
+const LBG={DAILY:"#DCFCE7",WEEKLY:"#DBEAFE",MONTHLY:"#EDE9FE",LIFECYCLE:"#FED7AA"};
+function chip(t,bg,fg,cls=''){return`<span class="chip ${cls}" style="background:${bg};color:${fg}">${t}</span>`}
+function chipLink(t,bg,fg,target){return`<span class="chip link" style="background:${bg};color:${fg}" onclick="scrollToSection('${target}')">${t}</span>`}
+function dot(l){return`<span class="cdot" style="background:${l==='Low'?'#166534':l==='Med'?'#B45309':'#991B1B'}"></span>`}
+function scrollToSection(id){switchTab('fnd');setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},100)}
+
+const EVENTS=[
+{code:"A2",name:"Daily Login / Check-In",pillar:"A",layer:"DAILY",arch1:"Achiever",arch2:"Bargain Hunter",wh:"CD2 Progress",bh:"CD8 Streak Loss",obj1:"Retention",dur:"Evergreen",desc:"<strong>What:</strong> Sequential login rewards escalating over 7–30 days. Non-negotiable daily habit foundation.<br><strong>How:</strong> Open app → claim reward → streak increments → Day 7 = disproportionately large → Day 14/30 surprise bonus resets motivation arc.<br><strong>Why it works:</strong> CD2 Progress (streak grows) + CD8 Loss Avoidance (don't break streak). The habit that makes all other events accessible.",ex:"Covet: 100◆+tickets. Infinity Nikki: 7-day check-in.",pr:"Surprise bonus at Day 14/30 to reset motivation arc.",h:"Day 7 claim >30%. D30 >10%",w:"Drop-off Day 3 = curve wrong"},
+{code:"A3",name:"Daily Quests / Welfare",pillar:"A",layer:"DAILY",arch1:"Achiever",arch2:"Explorer",wh:"CD2 Accomplishment",bh:"—",obj1:"Engagement",dur:"Evergreen",desc:"<strong>What:</strong> Task-based daily objectives mixing passive + active goals. 50–70% completion = sweet spot.<br><strong>How:</strong> 3–5 tasks refresh daily → mix passive (login) + active (style outfit) + social (vote 3 challenges) → each task = reward → complete all = bonus chest.<br><strong>Why it works:</strong> CD2 Accomplishment (checkmarks feel good). CW discovery engine — tag tasks with 'use Bohemian items' to drive browsing.<br><strong>Variant:</strong> Passive Collection (Critter Catch) — items appear randomly during gameplay, collect all 6 = bonus.",ex:"Love Nikki welfare: stamina-only. Candy Crush: Critter Catch (snowflakes during levels), Don't Feed The Troll (timer goal).",pr:"Rotate weekly to prevent fatigue. Passive Collection: items must be visually distinct + satisfying to collect.",h:"Completion 50–70%",w:"<40% = reward mismatch"},
+{code:"A1",name:"Styling Challenge (Vote/Scoring)",pillar:"A",layer:"WEEKLY",arch1:"Competitor",arch2:"Explorer",wh:"CD3+CD2",bh:"CD5 Status",obj1:"Engagement",dur:"24–72h",desc:"<strong>What:</strong> Create outfits matching theme; scored by peer voting or attribute algorithm. The core fashion loop.<br><strong>How:</strong> Theme announced → select CW items → submit outfit → peer voting 24h OR attribute scoring → results + rewards → next theme immediately.<br><strong>Why it works:</strong> CD3 Creativity (self-expression) + CD2 Score improvement + CD5 Social Status (peer pressure). Everything feeds into or from this event.<br><strong>Variant:</strong> Flashback (owned items only = zero cost). Streak Bet (player bets score >X, reward x2–3). Real-Time PvP Duel (DTI: 5–10 min live rounds, 651K concurrent — live styling + instant voting, strongest social virality).",ex:"Covet: peer-voted, 5 tiers. Love Nikki: attribute-scored. DTI: real-time live runway, peak 651K concurrent. Candy Crush: Streak Challenge.",pr:"Surface items that improve score without requiring purchase. Streak Bet: optional side-mechanic, not mandatory.",h:"Participation >40% DAU",w:"Score gap >40% = pay-to-win"},
+{code:"B3",name:"Flash Sale / LTO",pillar:"B",layer:"WEEKLY",arch1:"Bargain Hunter",arch2:"Collector",wh:"—",bh:"CD6+CD8",obj1:"Monetization",dur:"<24h",desc:"<strong>What:</strong> Time-constrained discounts with countdown timer. Chain offers = most effective Dolphin conversion tool.<br><strong>How:</strong> Calendar-driven (all players same time) → countdown 24h → chain: $0.99 → buy → $4.99 unlocks → buy → $14.99 → disappears on timer.<br><strong>Why it works:</strong> CD6 Scarcity (act now) + CD8 Loss Avoidance (missing deal = losing money). $0.99 entry is trivial → by Offer C, player committed $5.98.<br><strong>Key difference:</strong> CALENDAR-DRIVEN (vs B4 lifecycle trigger, vs B8 player-paced sequential). No personalization needed.<br><br><strong>Variant:</strong> Social Code Drops (DTI: exclusive items via 3-hour codes on TikTok/social media — millions check social for codes = free UA + habit formation. Fashion adaptation: influencer posts code → 3h window → exclusive accessory in-game).",ex:"Love Nikki: Zodiac packs daily. Covet: 25–50% off weekends. DTI: 3-hour social media code drops (free UA engine).",pr:"Countdown timer mandatory. Never repeat same offer same weekday.",h:"CVR 3–8%. Revenue lift >30%",w:"CVR <2% = wrong price"},
+{code:"B6",name:"Premium Tryout",pillar:"B",layer:"WEEKLY",arch1:"Explorer",arch2:"Collector",wh:"CD3 Creativity",bh:"CD8 Loss Avoidance",obj1:"Monetization",dur:"24–72h",desc:"<strong>What:</strong> Players use premium items in a sub-task/mission mode. After mode completes, items locked — must buy IAP to keep.<br><strong>How:</strong> Select collection → items unlocked for 1–2 levels → play + style → mode ends → 'Keep this look?' prompt → purchase or lose access. Bundle at 20–30% discount.<br><strong>Why it works:</strong> CD3 Creativity (enjoy styling) + CD8 Endowment Effect (once worn, feels 'mine'). Try-before-buy removes purchase uncertainty.<br><strong>Key difference:</strong> Player TRIES FIRST then decides (vs B1 pay first for random, vs B3 discount on unseen items).",ex:"Infinity Nikki ability outfits (functional trial). Fashion adaptation: full wardrobe trial → purchase gate.",pr:"Trial must feel generous. Post-trial bundle at 20–30% discount. Pair with Styling Challenge so trial items score well.",h:"Trial-to-purchase CVR >15%. Participation >30% DAU",w:"CVR <5% = items not desirable or trial too short"},
+{code:"B8",name:"Rolling Offers",pillar:"B",layer:"WEEKLY",arch1:"Bargain Hunter",arch2:"Achiever",wh:"CD2 Progress (bar fills up)",bh:"CD6+CD8",obj1:"Monetization",dur:"2–8 days (recurring)",desc:"<strong>What:</strong> Sequential free/paid mini-offers that unlock one-by-one. Total number unknown. Progress bar for bonus reward.<br><strong>How:</strong> Offer #1 (FREE) → claim → Offer #2 ($0.99) revealed → claim → #3 ($1.99) → ... → Progress bar fills → bonus when full.<br><strong>Why it works:</strong> CD2 Progress (bar fills) + CD6 Scarcity (each offer has timer) + CD8 Sunk Cost (after 3+ claims, bar too invested to abandon). Free start = low barrier → escalation.<br><strong>Key difference:</strong> PLAYER-PACED sequential chain (vs B3 calendar 1-shot, vs B4 milestone trigger). Mix free+paid. Runs PARALLEL with other events — additive revenue.",ex:"Candy Crush: Season Boost, Trail Treasure, Grab the Gold, Sprinkle Surprises. Runs 2–8 days, 5–7× per month, parallel with other offers.",pr:"First 1–2 offers should be FREE to hook. Progress bar for bonus reward = sunk cost after 3+ claims. Vary visual theme per rotation. Run parallel with other events — not standalone.",h:"Claim rate >60% for free offers. Paid CVR >8% by offer #3. Full chain completion >15%",w:"Paid CVR <3% = price too high too early. Drop-off at offer #2 = free→paid jump too harsh"},
+{code:"C1",name:"Co-op / Guild Rally",pillar:"C",layer:"WEEKLY",arch1:"Socialite",arch2:"Achiever",wh:"CD5+CD1",bh:"—",obj1:"Retention",dur:"7 days",desc:"<strong>What:</strong> Collective fashion house challenges. Guild members enter styled looks together.<br><strong>How:</strong> Fashion House enters rally → 12 themed challenges → members contribute looks → 3 tiers (Classic→Fancy→Fierce) → collective score → Prize Board → top contributors named.<br><strong>Why it works:</strong> CD5 Social ('my guild needs me') + CD1 Epic Meaning. Social obligation creates daily return stronger than any solo event. Guild D30 +15–25pp above solo.",ex:"Covet Runway Rally. Love Nikki Sand Skirmish.",pr:"Recognize top contributors. Async participation for timezones.",h:"Guild D30 +15–25pp",w:"Participation <50% guild"},
+{code:"C2",name:"Tournament / Ranking",pillar:"C",layer:"WEEKLY",arch1:"Competitor",arch2:"Achiever",wh:"CD2",bh:"CD5 Status",obj1:"Engagement",dur:"3–7 days",desc:"<strong>What:</strong> Competitive micro-leaderboards of 50–100 similar-skill peers. NOT global leaderboards.<br><strong>How:</strong> Enter → matched into micro-LB (50–100) → 'Rank 12 of 78' → styling scored → push 2h before end → final spend spike → top rewarded.<br><strong>Why it works:</strong> CD2 (rank improvement) + CD5 Status. 'Rank 12 of 78' feels achievable. Global LB = 80% drop after round 1 (hopeless).",ex:"Covet Top Look. DTI Wishing Journey.",pr:"Micro-LBs (50–100 peers), not global.",h:"Micro-LB repeat >50%",w:"Global LB: 80% drop round 1"},
+{code:"A4",name:"Themed / Seasonal",pillar:"A",layer:"MONTHLY",arch1:"Explorer",arch2:"Collector",wh:"CD1+CD3",bh:"CD7",obj1:"Engagement",dur:"14–28d",desc:"<strong>What:</strong> Megaevent wrapping multiple sub-events under 1 narrative umbrella. 3-tier: Free → Earnable → Premium.<br><strong>How:</strong> Teaser 3–5d before → unified visual → Tier 1 (login+quests+styling) → Tier 2 (co-op+coins+milestones) → Tier 3 (gacha+recharge+flash). 2–4 weeks.<br><strong>Why it works:</strong> CD1 Epic Meaning (cultural moment bigger than game) + CD3 Creativity. Player sees 1 event, team runs 9 mechanisms. See Tab 02 Umbrella.<br><strong>Key difference:</strong> Not a mechanic — it's the CONTAINER wrapping A1+A2+A3+B1+B3+C1+D2. Shared assets: +30–40% cost, not 10×.",ex:"Infinity Nikki monthly Seasons. Covet seasonal series.",pr:"Narrative teaser 3–5d before. Shared assets: +30–40% cost not 10×.",h:"Tier 1 >70% DAU",w:"Tier 1 <40% = theme not resonant"},
+{code:"A5",name:"Story / Narrative",pillar:"A",layer:"MONTHLY",arch1:"Explorer",arch2:"Socialite",wh:"CD1+CD3",bh:"—",obj1:"Retention",dur:"7–21d",desc:"<strong>What:</strong> Time-limited story chapters unlocking exclusive outfit blueprints. 2/3 of players prefer narrative events (King research).<br><strong>How:</strong> Ch1 opens (free stamina) → read + make choices → cliffhanger → Ch2 next day → complete all = exclusive blueprint. D30 +10pp above non-participants.<br><strong>Why it works:</strong> CD1 Epic Meaning + CD3 Creativity (choice mechanics). 'Must see what happens' creates daily return. Strongest D30 retention driver.",ex:"Dress Up Time Princess. Shining Nikki story suits.",pr:"Cliffhanger at Ch1 end. Choice mechanic.",h:"Ch1→Ch2 >70%. D30 +10pp",w:"Drop-off Ch2+ = pacing too slow"},
+{code:"A6",name:"Collection Craft / Merge & Collect",pillar:"A",layer:"WEEKLY",arch1:"Collector",arch2:"Achiever",wh:"CD4+CD2",bh:"CD8 Weekly Reset",obj1:"Engagement",dur:"7 days (weekly rotation)",desc:"<strong>What:</strong> Grind levels → collect fragments → merge → craft 4–5★ set pieces. Deterministic but effort-gated.<br><strong>How:</strong> Play level → earn fragment → merge 2 fragments → upgraded material → raid for more → craft set piece → linked to weekly event bonus.<br><strong>Why it works:</strong> CD4 Ownership (building MY collection) + CD2 daily merge progress. CD8 weekly reset creates urgency.<br><strong>Key difference:</strong> DETERMINISTIC (player knows exactly what they need, vs B1 random). Has MERGE step (vs A3 simple task→reward). Bridge engagement↔monetization: grind free OR buy shortcut.",ex:"Life Makeover: weekly collection sets with merge crafting. Fragments from level completion → merge → craft 4–5★ items.",pr:"Show merge tree visually — player sees exactly what they need. Rotate collection sets weekly. Optional IAP shortcut for materials (not mandatory).",h:"Daily return rate >70% during event. Craft completion >40% of participants",w:"Completion <20% = grind too long. Material drop rate too low = frustration"},
+{code:"B1",name:"Gacha / Pavilion",pillar:"B",layer:"MONTHLY",arch1:"Collector",arch2:"Achiever",wh:"CD4 Ownership",bh:"CD7+CD6",obj1:"Monetization",dur:"7–14d",desc:"<strong>What:</strong> Each pull = 1 random clothing piece from a themed pool. Build set piece-by-piece through luck + pity timer.<br><strong>How:</strong> Banner opens → spend 100◆/pull → random piece → pity guarantees new piece every 3–5 pulls → complete set = bonus.<br><strong>Why it works:</strong> CD7 Unpredictability ('one more pull') + CD4 Ownership (must complete set). Pity makes each pull feel safe.<br><strong>Key difference:</strong> RANDOM pieces (vs B5 deterministic milestones, vs B2 escalating node structure for full suits). Runs as STEADY revenue between major events.",ex:"LN: Standard/Mini/Currency Pavilion. Infinity Nikki: Resonance Banners (pity ~180).",pr:"Publish pity timer prominently. 50% off first pull. Rotate 3 concurrent banners.",h:"Pity hit 25–45% = healthy",w:"Pity >60% = economy too tight"},
+{code:"B5",name:"Recharge / Spend Milestone",pillar:"B",layer:"MONTHLY",arch1:"Achiever",arch2:"Collector",wh:"CD2 Milestone",bh:"CD8 Sunk Cost",obj1:"Monetization",dur:"7–14d",desc:"<strong>What:</strong> Real-money spending milestones unlock exclusive suits. Deterministic — player knows exact cost.<br><strong>How:</strong> Runs concurrent with B1/B2 → nạp $5 → Milestone 1 → nạp $20 → Milestone 2. Same IAP counts for BOTH events (double-dip).<br><strong>Why it works:</strong> CD2 Progress + CD8 Sunk Cost. 'Bonus on top of what you already spend' removes friction.<br><strong>Key difference:</strong> DETERMINISTIC real-money (vs B1 random pulls, vs B2 in-game currency nodes). NEVER standalone.",ex:"Love Nikki: VIP EXP milestone suits. Always layered atop gacha/hell.",pr:"Node 1 at ~$5 (Dolphin accessible). Show 'X◆ until next reward'. Space nodes at 20% of avg whale spend.",h:"Node 1 >20% paying users reach",w:"Only Node 1 reached = nodes 2+ priced too high"},
+{code:"D1",name:"Season Pass",pillar:"D",layer:"MONTHLY",arch1:"Achiever",arch2:"Collector",wh:"CD2+CD4",bh:"CD8 Sunk Cost",obj1:"Retention",dur:"28–42d",desc:"<strong>What:</strong> Free + premium dual-track progression. Closest to subscription revenue. 70%+ top-20% grossing games use this.<br><strong>How:</strong> Season opens (28–42d) → free track visible → premium ($4.99–$9.99) shows value meter → daily/weekly tasks earn XP → unlock tiers → premium = sunk cost → daily return.<br><strong>Why it works:</strong> CD2+CD4 (progress + exclusive items) + CD8 Sunk Cost (already paid → must play daily to extract value). Creates 28–42 day habit.",ex:"Project Makeover. Covet Styling Spree.",pr:"Show total value at purchase. Align tasks with existing play.",h:"Purchase 25–45% paying",w:"Purchase <10% = rewards not visible"},
+{code:"D2",name:"Series / Multi-Challenge",pillar:"D",layer:"MONTHLY",arch1:"Achiever",arch2:"Explorer",wh:"CD2+CD3",bh:"—",obj1:"Engagement",dur:"10–14d",desc:"<strong>What:</strong> Grouped challenges under narrative theme. Connective tissue between tentpole events.<br><strong>How:</strong> 6–7 themed challenges over 10–14d → new challenge every 1–2d → complete 6 of 7 = major reward → all 7 = bonus. NOT all-or-nothing.<br><strong>Why it works:</strong> CD2+CD3. '6 of 7' structure lets player miss 1 = reduces anxiety while maintaining engagement. Lower cost than A4 but fills lapse-risk gap.",ex:"Covet Monthly Series: 6–7 challenges.",pr:"Highest reward at challenge 6 of 7, not all-or-nothing.",h:"Completion >50%",w:"Drop-off >30% at ch.3 = fatigue"},
+{code:"D3",name:"VIP / Loyalty Tier (Trendsetter)",pillar:"D",layer:"LIFECYCLE",arch1:"Collector",arch2:"Achiever",wh:"CD4+CD2",bh:"CD8 Sunk Cost",obj1:"Retention",dur:"Permanent (always-on)",desc:"<strong>What:</strong> Cumulative lifetime value milestones that unlock permanent status tiers + exclusive monthly benefits.<br><strong>How:</strong> Player spending accumulates → hits $300K closet value → Bronze tier (monthly bundle access) → $600K → Silver (exclusive items + priority voting) → $1M → Gold (unique badge + VIP-only events). Tiers never reset.<br><strong>Key difference:</strong> Based on CUMULATIVE LIFETIME value (vs B4 single purchase, vs D1 monthly pass). Permanent status creates identity — player IS a Trendsetter, not just 'bought a pack once'. Strongest long-term retention for whales.",ex:"Covet Fashion: Trendsetter $300K/$600K/$1M — monthly exclusive bundles per tier. Whale retention program.",pr:"Tiers must be permanent (never decay). Monthly perks per tier keep it active. Show closet value prominently as social status. Entry tier must feel achievable within 3–6 months of moderate play.",h:"Tier 1 reach >10% of D30+ players. Whale D90 retention +20pp vs. non-tiered",w:"<3% reach Tier 1 = threshold too high. No monthly perks = tier feels meaningless after unlock"},
+{code:"B2",name:"Hell Event",pillar:"B",layer:"LIFECYCLE",arch1:"Collector",arch2:"Achiever",wh:"CD4 Ownership",bh:"CD6+CD8",obj1:"Monetization",dur:"10–14d",desc:"<strong>What:</strong> THE BIG QUARTERLY EVENT. Escalating node structure — each node = 1 complete suit.<br><strong>How:</strong> Pull (30◆ each) → tokens accumulate → Node 1 (~450◆, cheapest suit) → Node 2 → ... → Node 5 (~6,600◆+, grand suit). Full completion 27,000◆+. 1 free pull/day.<br><strong>Why it works:</strong> CD4+CD6+CD8. Escalating sunk-cost trap — after Node 2, walking away wastes investment. ARPU 3–5× baseline.<br><strong>Key difference:</strong> FULL SUITS at nodes (vs B1 random pieces). IN-GAME currency (vs B5 real-money). Always concurrent B5 Recharge. QUARTERLY MAX.",ex:"LN: Sky & Sea (Node 1→5: 450→6,600◆). Flowing Garden: 27,000◆ full. True Road: 28,800◆.",pr:"1 free pull/day. Always concurrent Recharge (B5). Max 2 reruns → Wish Gate permanent.",h:"Node 3+ >15% players. ARPU 3–5× baseline",w:">80% stop Node 1 = entry too high"},
+{code:"B4",name:"Bundle / Starter Pack",pillar:"B",layer:"LIFECYCLE",arch1:"Bargain Hunter",arch2:"Achiever",wh:"CD4+CD2",bh:"CD6 Deal",obj1:"Monetization",dur:"Lifecycle-triggered",desc:"<strong>What:</strong> Curated item + currency packages triggered by behavioral milestones. Primary F2P→paying conversion mechanism.<br><strong>How:</strong> Player hits milestone (first challenge, first loss, store browse) → pack appears as popup → 2–3 exclusive CW items + currency at $0.99 → if purchased → next tier unlocks ($4.99, $14.99).<br><strong>Why it works:</strong> CD4+CD2+CD6 Deal. TRIGGER TIMING is everything — appearing when spending intent peaks. LTV D30 converters = 4–6× non-converters.<br><strong>Key difference:</strong> LIFECYCLE-TRIGGERED per player behavior (vs B3 calendar same for all, vs B8 sequential chain).",ex:"2–3 CW items + 500 premium at $0.99–$2.99.",pr:"Trigger at behavioral milestone. LTV D30 converters 4–6× non-converters.",h:"CVR 2–5% D1–D7",w:"CVR <1% = wrong trigger"},
+{code:"C3",name:"Collaboration / IP",pillar:"C",layer:"LIFECYCLE",arch1:"Collector",arch2:"Explorer",wh:"—",bh:"CD6+CD7",obj1:"Monetization",dur:"14–28d",desc:"<strong>What:</strong> IP partnerships driving exclusive content. Never reruns (licensing). Dual purpose: revenue + new installs.<br><strong>How:</strong> IP partner selected → exclusive items designed → co-marketing with IP holder → event launches → new installs from IP fans + revenue spike → items vaulted permanently.<br><strong>Why it works:</strong> CD6 genuine scarcity (legal, not artificial) + CD7. Players know these items truly won't return. Brawl Stars × Godzilla: 136% revenue spike.",ex:"Covet: 175+ brands. Infinity Nikki × Stardew.",pr:"Match IP to audience. MUST NOT rerun. Quarterly.",h:"Install lift >15%. Revenue >80%",w:"No install = IP mismatch"}
+];
+
+const ASSESSMENT=[
+{code:"A2",complexity:"Low",template:"Yes — 1 template forever",monthly:"30 (evergreen)",dep:["None"],note:"Build Day 1. Highest ROI/effort."},
+{code:"A3",complexity:"Low",template:"Yes — rotate task pool",monthly:"30 (evergreen)",dep:["None"],note:"Pair with A2. CW discovery."},
+{code:"A1",complexity:"Med",template:"Yes — new theme each",monthly:"4–8",dep:["CW item tags"],note:"Core fashion loop."},
+{code:"B3",complexity:"Low",template:"Yes — vary hook item",monthly:"4–6",dep:["Offer engine"],note:"Highest CVR per dev hour."},
+{code:"B6",complexity:"Low",template:"Yes — rotate premium sets",monthly:"2–4",dep:["Sub-task mode","Premium item system"],note:"NEW: Premium Tryout. Endowment effect."},
+{code:"B8",complexity:"Low",template:"Yes — rotate themes + offers",monthly:"5–7 (recurring cycles)",dep:["Sequential offer system","Progress bar tracker"],note:"NEW: Rolling Offers. Free→paid escalation chain."},
+{code:"B4",complexity:"Med",template:"Yes — 3 tiers",monthly:"Triggered",dep:["Behavioral trigger"],note:"Primary F2P→paying."},
+{code:"D1",complexity:"High",template:"Monthly theme + tasks",monthly:"1 (permanent)",dep:["A3 quest system"],note:"Subscription-like revenue."},
+{code:"B1",complexity:"High",template:"New banner per rotation",monthly:"2–3 concurrent",dep:["Currency economy","Pity timer"],note:"Primary revenue driver Nikki."},
+{code:"A4",complexity:"High",template:"Umbrella per season",monthly:"1–2",dep:["A2","A3","A1","CW seasonal"],note:"Highest engagement."},
+{code:"C2",complexity:"Med",template:"Yes — reuse format",monthly:"2–4",dep:["A1","Leaderboard"],note:"Micro-LB critical."},
+{code:"B5",complexity:"Med",template:"Yes — node structure",monthly:"1–2 (concurrent)",dep:["B1 or B2","Payment"],note:"Never standalone."},
+{code:"A5",complexity:"High",template:"New narrative",monthly:"1",dep:["Content","CW blueprints"],note:"2/3 prefer narrative."},
+{code:"A6",complexity:"Med",template:"Yes — rotate sets weekly",monthly:"4 (weekly)",dep:["Merge/craft system","CW item tagging"],note:"NEW: Grind→Merge→Craft. Daily return driver."},
+{code:"D2",complexity:"Med",template:"Yes — 6-7 slots",monthly:"1–2",dep:["A1 Challenge"],note:"Fills gaps."},
+{code:"D3",complexity:"High",template:"Yes — tier structure permanent",monthly:"Always-on",dep:["Closet value tracking","Tier reward system","CW exclusive tagging"],note:"NEW: VIP/Loyalty. Whale retention. Covet Trendsetter."},
+{code:"C1",complexity:"High",template:"Monthly refresh",monthly:"1–2",dep:["Guild system","10K DAU"],note:"Needs 10K DAU."},
+{code:"B2",complexity:"High",template:"New suit set",monthly:"1/quarter",dep:["CDP","B5","Welfare"],note:"QUARTERLY MAX."},
+{code:"C3",complexity:"High",template:"Fully custom",monthly:"1/quarter",dep:["CDP","Legal"],note:"Revenue: 80–136%."}
+];
+
+const ARCHETYPES=[
+{name:"Collector",pct:"~25%",spend:"$$$$$",color:"#166534",bartle:"Achiever (♦)",drive:"CD4 — Ownership & Possession",desc:"Wardrobe completion % is their north star. Will spend to complete sets. Grey empty slots = strongest hook.",events:"B1 Gacha · B2 Hell · C3 Collab",tags:["Highest spend","Med churn"]},
+{name:"Achiever",pct:"~20%",spend:"$$$$",color:"#1E40AF",bartle:"Achiever (♦)",drive:"CD2 — Accomplishment",desc:"Score improvement, tier progression, milestone completion. Lowest churn — returns daily for Season Pass XP. Bartle's Achiever: 'points, levels, and concrete measurements of success'.",events:"D1 Season Pass · A3 Quests · D2 Series",tags:["High spend","Lowest churn"]},
+{name:"Competitor",pct:"~15%",spend:"$$$",color:"#B45309",bartle:"Killer (♣)",drive:"CD2+CD5 — Status",desc:"Mapped from Bartle's Killer type: 'thrill from winning when others lose'. In fashion context = leaderboard rank, Top Look visibility. High churn if not winning.",events:"C2 Tournament · A1 Challenge",tags:["Mod spend","High churn"]},
+{name:"Socialite",pct:"~20%",spend:"$$$",color:"#5B21B6",bartle:"Socializer (♥)",drive:"CD5 — Belonging",desc:"Bartle's Socializer: 'the game is merely a tool to meet others'. Guild members D30 retention 15–25pp above solo. 'My guild needs me' stronger than any solo reward.",events:"C1 Co-op · Guild · Community Voting",tags:["Mod spend","Very low churn"]},
+{name:"Explorer",pct:"~15%",spend:"$$",color:"#0E7490",bartle:"Explorer (♠)",drive:"CD3+CD7 — Creative expression",desc:"Bartle's Explorer: 'find it interesting when the game surprises them'. In fashion = discovering new aesthetics, trying styles, story content. Primary UA driver.",events:"A5 Story · A4 Themed · B6 Tryout",tags:["Low spend","UA driver"]},
+{name:"Bargain Hunter",pct:"~5%",spend:"CONV",color:"#991B1B",bartle:"Achiever variant",drive:"CD6+CD4 — Deal-seeking",desc:"Fashion-specific archetype. Only responds to perceived savings and limited-time deals. Best conversion rate but highest churn. Chain offers are key.",events:"B3 Flash · B4 Starter Packs",tags:["Best CVR","High churn"]}
+];
+
+const CD_DATA=[
+{cd:"CD1",name:"Epic Meaning",hat:"White",feel:"Làm điều có ý nghĩa lớn hơn game",fashion:"Lunar New Year Festival, story chapters",evs:"A4 · A5"},
+{cd:"CD2",name:"Accomplishment",hat:"White",feel:"Đang tiến bộ, vừa hoàn thành",fashion:"Season Pass XP, styling improvement",evs:"D1 · A3 · D2"},
+{cd:"CD3",name:"Creativity",hat:"White",feel:"Tự do sáng tạo, đây là style của tôi",fashion:"Outfit creation, styling challenge",evs:"A1 · A5 · B6"},
+{cd:"CD4",name:"Ownership",hat:"White",feel:"Đây là của tôi, muốn hoàn thiện",fashion:"Wardrobe, suit index, Trendsetter, collection craft, VIP closet value",evs:"B1 · B2 · B4 · A6 · D3"},
+{cd:"CD5",name:"Social",hat:"White",feel:"Guild cần tôi hôm nay",fashion:"Guild rallies, peer voting",evs:"C1 · C2"},
+{cd:"CD6",name:"Scarcity",hat:"Black",feel:"Chỉ còn 24h, phải hành động",fashion:"Flash sales, limited suits, rolling offer timers",evs:"B3 · B2 · C3 · B8"},
+{cd:"CD7",name:"Unpredictability",hat:"Black",feel:"Mỗi pull là bất ngờ",fashion:"Gacha banners, mystery boxes",evs:"B1 · A4"},
+{cd:"CD8",name:"Loss Avoidance",hat:"Black",feel:"Đã đầu tư quá nhiều để dừng",fashion:"Hell event sunk cost, login streak, rolling offer progress bar",evs:"B2 · D1 · B6 · B8 · A6"}
+];
+
+const KPI_GROUPS=[
+{label:"Monetization",color:"#991B1B",items:[
+{name:"ARPDAU",formula:"Total Revenue ÷ DAU",bench:"$0.05–$0.20+",flag:"Drop >15% post-event = Hangover",use:"Compare during vs. non-event days."},
+{name:"Conversion Rate",formula:"(New Payers ÷ DAU) × 100%",bench:"2–6%",flag:"<1% after 3mo",use:"Track per event type."},
+{name:"Event Revenue Lift",formula:"(Event − Baseline) ÷ Baseline",bench:"+30–200%",flag:"<20% = weak",use:"Baseline = 7-day pre-event avg."},
+{name:"ARPPU",formula:"Revenue ÷ Paying Users",bench:"$8–20/mo",flag:"Declining = whales out",use:"Segment by payer tier."},
+{name:"Hangover Ratio",formula:"Revenue D+1→D+3 ÷ Baseline",bench:">0.85 healthy",flag:"<0.70 = over-extracted",use:"Always measure net."}
+]},{label:"Engagement",color:"#B45309",items:[
+{name:"Event Participation",formula:"Participants ÷ DAU",bench:"20–60%",flag:"<10% = not discoverable",use:"Funnel: Saw→Clicked→Started→Completed."},
+{name:"DAU/MAU",formula:"DAU ÷ MAU",bench:">35% healthy",flag:"Declining despite DAU",use:"Target +5–10pp after launch."},
+{name:"Session Frequency",formula:"Sessions ÷ DAU/day",bench:"2–8/day",flag:"<1.5 = no return trigger",use:"Streak shields should increase."},
+{name:"Challenge Submit Rate",formula:"Players submitted outfit ÷ Players saw challenge",bench:"30–50%",flag:"<15% = theme hoặc reward yếu",use:"Đo sức hấp dẫn theme. 'Saw' = opened challenge screen. 'Submitted' = actually styled + confirmed."}
+]},{label:"Retention",color:"#166534",items:[
+{name:"D1/D7/D30",formula:"Day N ÷ Day 0 installs",bench:"D1>40% D7>15% D30>5%",flag:"D7<10% = loop failing",use:"Compare participant vs. non."},
+{name:"Participant D30 Lift",formula:"Ret(part.) − Ret(non)",bench:"+3–20pp",flag:"No lift = disconnected",use:"Segment by event type."},
+{name:"Login Streak",formula:"% DAU at 7d/14d/30d+",bench:">20% at 7d",flag:"Cliff at D7",use:"Day 7 reward = highest impact."},
+{name:"Re-Activation",formula:"Returned ÷ Churned",bench:"5–30%",flag:"<5% = no strategy",use:"7d lapse → comeback push."}
+]},{label:"Economy",color:"#5B21B6",items:[
+{name:"Inflow/Outflow",formula:"Earned ÷ Spent/day",bench:"1.0–1.2×",flag:">2.0 = inflation",use:"Event currencies should expire."},
+{name:"CW Acquisition",formula:"New items/player/week",bench:"3–8 engaged",flag:"Declining = issue",use:"Track by source."}
+]}];
+
+const COMPETITORS=[
+{name:"Covet Fashion",color:"#C2185B",bg:"rgba(194,24,91,.04)",tagline:"Peer-Voting Challenge Empire",mechs:[
+{name:"Styling Challenges",how:"Theme → style from 150+ real brands → community votes ★ → prizes.",revenue:"Season Bonus (+0.30★) = ongoing purchase pressure.",insight:"French Connection: 37% of e-commerce sales on launch day.",flow:"THEME → STYLE → VOTE → RANK → PRIZE"},
+{name:"Trendsetter Program",how:"$300K/$600K/$1M Closet Value → monthly bundles.",revenue:"Whales spend hundreds to maintain status.",insight:"Closet Value = luxury brand analog. Pure identity.",flow:"$0 → $300K → $600K → $1M → Bundles"}
+]},{name:"Love Nikki",color:"#E65100",bg:"rgba(230,81,0,.04)",tagline:"Gacha + Completionism",mechs:[
+{name:"Hell Events",how:"7–10d: 3–5 suits. Spend ◆ → nodes → full suit. NEVER returns.",revenue:"#1 revenue driver. Completionism + exclusivity.",insight:"Suits = permanent social status symbols.",flow:"SPEND ◆ → NODES → PIECES → SUIT → VAULTED"},
+{name:"Pavilion (Gacha)",how:"~100◆/draw. Pity every 3–5 pulls.",revenue:"Steady between Hell Events.",insight:"'One more pull' psychology.",flow:"PULL → RANDOM PIECE → SET → PITY 3–5"}
+]},{name:"Infinity Nikki",color:"#512DA8",bg:"rgba(81,45,168,.04)",tagline:"Genshin Model × Fashion",mechs:[
+{name:"Resonance Banners",how:"Limited 2–4 weeks. 5-star ~180 pulls. 9 free outfits.",revenue:"Generous F2P = massive DAU. 20M downloads M1.",insight:"More generous = larger base = more total revenue.",flow:"BANNER → SOFT PITY ~20 → FULL ~180"},
+{name:"Ability Outfits",how:"Outfits grant gameplay abilities during event windows.",revenue:"Removes 'just cosmetic' objection.",insight:"Fashion becomes functional progression.",flow:"OUTFIT + ABILITY → Event requires → Purchase"}
+]},{name:"Dress to Impress",color:"#00796B",bg:"rgba(0,121,107,.04)",tagline:"Real-Time Social (Roblox)",mechs:[
+{name:"Real-Time Runway",how:"5–10 min rounds. Style → runway → live votes. Peak: 651K.",revenue:"Social virality = free UA.",insight:"'Won TODAY live' more shareable.",flow:"LOBBY → STYLE → RUNWAY → VOTES → WINNER"},
+{name:"Code Items (3h drops)",how:"Exclusive items via social media codes — 3 hours only.",revenue:"Millions hunting = free marketing.",insight:"Habitual TikTok checking.",flow:"INFLUENCER → CODE → 3-HOUR → Claimed or missed"}
+]}];
+
+const FASHION_MECHANICS=[
+{name:"Styling Challenge",maps:"A1 · C2",variants:["Peer Voting (Covet)","Attribute Scoring (Love Nikki)","Real-Time Voting (DTI)"],features:"Season bonus on current items. Flashback = zero cost.",run:"Theme → CW tags → Submit 24–48h → Score 24h → Top 10% → Next theme.",notes:"Aspirational themes > easy. Never repeat within 4 weeks."},
+{name:"Limited Edition Drops",maps:"B1 · B2 · C3",variants:["Hell Events (LN)","Resonance Banners (IN)","Time-Gate Vault (12mo)"],features:"Never obtainable again. Vault: 12mo re-release.",run:"Design → Milestones → 7-day window → Daily push → Lock.",notes:"NEVER re-release < 12mo."},
+{name:"Collection Completion",maps:"B2 · D1 · B4",variants:["Suit Index (LN)","Closet Value (Covet)","Outfit Album"],features:"Grey empty slots = strongest hook. Deterministic.",run:"Define sets → Different methods → Grey UI → 'You need 2!' → Bonus.",notes:"Highlight MISSING items. 'Just 1 piece away!'"},
+{name:"Premium Tryout",maps:"B6",variants:["Ability Outfits (IN) — functional trial","Sub-Task Mode — play mission with premium items","Full Collection Trial — wear everything for 1–2 levels"],features:"Endowment effect: once worn, player feels ownership. Post-trial bundle 20–30% off.",run:"Select collection → Unlock for sub-task → Play → Timer expires → 'Keep?' → Purchase or lose.",notes:"NEW mechanic. Pair with Styling Challenge for score synergy."},
+{name:"Fashion House / Guild",maps:"C1 · C2",variants:["Runway Rallies (Covet)","Association (LN)"],features:"'My guild needs me' > solo reward. D30 +15–25pp.",run:"Auto-join → Weekly goals → Prize Board.",notes:"Needs 10K DAU per title."},
+{name:"Collection Craft / Merge",maps:"A6",variants:["Life Makeover: level drop → merge fragments → craft 4–5★ set pieces","Candy Crush: Critter Catch (collect during normal play)","Cookie Run: ingredient collection → recipe crafting"],features:"Deterministic but effort-gated. Player knows exactly what they need. Merge tree creates visible daily progress. Links to weekly event for bonus.",run:"Play levels → earn fragments → merge 2→1 upgraded → repeat → craft set piece → weekly event bonus.",notes:"NEW mechanic. Bridge engagement↔monetization: grind free OR buy material shortcut. Rotate collection sets weekly."},
+{name:"Rolling Offers",maps:"B8",variants:["Candy Crush: Season Boost, Trail Treasure, Grab the Gold (2–8 days, sequential free+paid)","Coin Master: daily deal chains","Fashion adaptation: sequential outfit piece offers, each reveal unlocks next"],features:"Sequential free or paid mini-offers unlock one-by-one. Total number unknown. Progress bar for bonus reward creates sunk cost. First 1–2 offers FREE = low barrier.",run:"Offer #1 (free) → Claim → Offer #2 (free/$0.99) → Claim → #3 ($1.99) → ... → Progress bar full → Bonus reward.",notes:"Run parallel with other events, not standalone. Vary theme per rotation. 5–7× per month frequency."}
+];
+
+const METRICS_OV=[
+{group:"Revenue",color:"#991B1B",metrics:[{name:"ARPDAU",bench:"$0.05–$0.20+",signal:"Drop >15% = Hangover",meaning:"Doanh thu trung bình mỗi user mỗi ngày — thước đo sức khỏe monetization tổng thể"},{name:"CVR F2P→Paying",bench:"2–6%",signal:"<1% after 3mo",meaning:"% người chơi chuyển từ free sang trả tiền — đo hiệu quả conversion funnel"},{name:"Event Lift",bench:"+30–200%",signal:"<20% = weak",meaning:"% doanh thu tăng trong event so với baseline — đo event có đáng chạy không"},{name:"ARPPU",bench:"$8–20/mo",signal:"Declining = whales out",meaning:"Doanh thu trung bình mỗi paying user — nếu giảm = whale đang rời"}]},
+{group:"Engagement",color:"#B45309",metrics:[{name:"DAU/MAU",bench:">35%",signal:"Declining despite DAU",meaning:"Stickiness ratio — % monthly users quay lại mỗi ngày. Cao = game tạo được habit"},{name:"Event Participation",bench:"20–60%",signal:"<10% = hidden",meaning:"% DAU tham gia event — thấp = event không discoverable hoặc reward yếu"},{name:"Sessions/day",bench:"2–8",signal:"<1.5 = no hook",meaning:"Số lần mở app/ngày — nhiều session = nhiều touchpoint cho offers"},{name:"Submit Rate",bench:"30–50%",signal:"<15% = theme",meaning:"% người thấy challenge mà thực sự submit outfit — đo attractiveness của theme"}]},
+{group:"Retention",color:"#166534",metrics:[{name:"D1/D7/D30",bench:"D1>40% D7>15%",signal:"D7<10% = loop",meaning:"% players quay lại sau 1/7/30 ngày — thước đo core loop effectiveness"},{name:"Part. D30 Lift",bench:"+3–20pp",signal:"No lift",meaning:"Delta retention giữa event participants vs. non — đo event có giữ chân hay không"},{name:"3d Lapse",bench:"<30% DAU",signal:"Rising = decline",meaning:"% DAU vắng 3+ ngày — tăng = sớm churn, cần re-engagement push"},{name:"Re-Activation",bench:"5–30%",signal:"<5% = nothing",meaning:"% churned users quay lại sau 7d+ — đo hiệu quả winback campaigns"}]}
+];
+
+// ═══════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ═══════════════════════════════════════════════════
+function renderCDs(){
+  function card(d){const w=d.hat==='White';return`<div class="cd-card ${w?'wh':'bh'}" id="cd-${d.cd}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:5px"><span style="font-family:var(--ff-m);font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:${w?'#DCFCE7':'#FEE2E2'};color:${w?'#166534':'#991B1B'}">${d.cd}</span><span style="font-weight:700;font-size:12.5px">${d.name}</span></div><div style="font-size:11.5px;font-style:italic;color:var(--ink2);margin-bottom:4px;line-height:1.45">"${d.feel}"</div><div style="font-size:10.5px;color:var(--ink3);margin-bottom:4px"><strong style="color:var(--ink)">Fashion:</strong> ${d.fashion}</div><div style="display:flex;flex-wrap:wrap;gap:3px">${d.evs.split('·').map(e=>`<span style="font-size:9.5px;padding:1px 6px;border-radius:3px;background:rgba(0,0,0,.04);font-weight:600;color:var(--ink3)">${e.trim()}</span>`).join('')}</div></div>`}
+  document.getElementById('cd-white').innerHTML=CD_DATA.filter(d=>d.hat==='White').map(card).join('');
+  document.getElementById('cd-black').innerHTML=CD_DATA.filter(d=>d.hat==='Black').map(card).join('');
+}
+
+function renderArchGrid(){
+  document.getElementById('arch-grid').innerHTML=ARCHETYPES.map(a=>`<div class="arch-card" style="border-top:3px solid ${a.color}" id="arch-${a.name.toLowerCase()}"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div style="font-weight:700;font-size:15px;color:${a.color}">${a.name}</div><span style="font-family:var(--ff-m);font-size:11px;color:${a.color};font-weight:600">${a.pct}</span></div><div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink2);line-height:1.5"><div><span style="font-weight:700;color:var(--ink)">Bartle:</span> ${a.bartle}</div><div><span style="font-weight:700;color:var(--ink)">Drive:</span> ${a.drive}</div><div><span style="font-weight:700;color:var(--ink)">Behavior:</span> ${a.desc}</div><div><span style="font-weight:700;color:var(--ink)">Best events:</span> ${a.events}</div></div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">${a.tags.map(t=>`<span class="chip" style="background:rgba(0,0,0,.04);color:${a.color}">${t}</span>`).join('')}</div></div>`).join('');
+}
+
+function renderMatrix(){
+  const layers=[{key:"DAILY",name:"Daily Habit · L1",meta:"< 1h/week · Always-on",bg:"rgba(22,101,52,.04)"},{key:"WEEKLY",name:"Weekly · L2",meta:"2–4h/event · Template-driven",bg:"rgba(30,64,175,.04)"},{key:"MONTHLY",name:"Monthly · L3",meta:"1–2w lead · Full production",bg:"rgba(91,33,182,.04)"},{key:"LIFECYCLE",name:"Lifecycle · L4",meta:"Quarterly · Highest ARPU",bg:"rgba(153,27,27,.04)"}];
+  const pillars=["A","B","C","D"];const pn={A:"Engagement",B:"Monetization",C:"Social",D:"Progression"};
+  let h=`<div class="matrix-hd"><div class="matrix-hd-cell"><span style="font-family:var(--ff-m);font-size:9px;color:rgba(255,255,255,.4)">LAYER</span></div>`;
+  pillars.forEach(p=>h+=`<div class="matrix-hd-cell"><div style="font-family:var(--ff-d);font-size:17px;color:#fff;font-weight:600">${p}</div><div style="font-size:9.5px;color:rgba(255,255,255,.45)">${pn[p]}</div></div>`);h+='</div>';
+  layers.forEach(l=>{
+    h+=`<div class="matrix-row" style="background:${l.bg}"><div class="matrix-lbl"><div class="matrix-lbl-name" style="color:${LC[l.key]}">${l.name}</div><div class="matrix-lbl-meta">${l.meta}</div></div>`;
+    pillars.forEach(p=>{
+      const evs=EVENTS.filter(e=>e.layer===l.key&&e.pillar===p);
+      h+='<div class="matrix-cell">';
+      if(!evs.length)h+='<div class="mc-empty">—</div>';
+      evs.forEach(e=>{
+        const whCDs=e.wh!=='—'?e.wh.split('+').map(c=>c.trim().split(' ')[0]):[]; 
+        const bhCDs=e.bh!=='—'?e.bh.split('+').map(c=>c.trim().split(' ')[0]):[];
+        h+=`<div class="ev-tag" style="background:${PCL[p]}80" onclick="switchTab('evs');setTimeout(()=>openEvent('${e.code}'),150)">
+          <div class="ev-tag-code" style="color:${PC[p]}">${e.code}</div>
+          <div class="ev-tag-name">${e.name}</div>
+          <div class="ev-tag-meta">
+            <span class="chip" style="background:rgba(0,0,0,.06);color:var(--ink3);font-size:9px;padding:1px 5px">${e.arch1}</span>
+            ${whCDs.map(c=>`<span class="chip link" style="background:rgba(22,101,52,.08);color:#166534;font-size:9px;padding:1px 5px" onclick="event.stopPropagation();scrollToSection('cd-${c}')">${c}</span>`).join('')}
+            ${bhCDs.map(c=>`<span class="chip link" style="background:rgba(153,27,27,.08);color:#991B1B;font-size:9px;padding:1px 5px" onclick="event.stopPropagation();scrollToSection('cd-${c}')">${c}</span>`).join('')}
+          </div>
+        </div>`;
+      });h+='</div>';
+    });h+='</div>';
+  });
+  document.getElementById('main-matrix').innerHTML=h;
+}
+
+function renderMetrics(){
+  document.getElementById('metrics-overview').innerHTML=METRICS_OV.map(g=>`<div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:${g.color};margin-bottom:8px">${g.group}</div><div style="display:flex;flex-direction:column;gap:8px">${g.metrics.map(m=>`<div class="metric-card"><div style="font-weight:700;font-size:12.5px;margin-bottom:3px">${m.name}</div><div style="font-size:11px;color:var(--ink3);font-style:italic;margin-bottom:4px;line-height:1.45">${m.meaning}</div><div style="font-size:11px;color:var(--ink2)">Bench: <strong>${m.bench}</strong></div><div style="font-size:10.5px;color:var(--gb);margin-top:2px">⚠ ${m.signal}</div></div>`).join('')}</div></div>`).join('');
+}
+
+// EVENTS
+function renderEventsFilter(){
+  const bar=document.getElementById('evs-filter-bar');
+  bar.innerHTML=[['all','All 18','var(--ink)','#fff'],['A','A · Engagement',PC.A,PCL.A],['B','B · Monetization',PC.B,PCL.B],['C','C · Social',PC.C,PCL.C],['D','D · Progression',PC.D,PCL.D]].map(([f,l,bg,fg])=>`<button id="evf-${f}" onclick="filterEvs('${f}')" style="border:none;cursor:pointer;font-family:var(--ff-b);border-radius:100px;padding:7px 16px;font-size:11px;font-weight:700;background:${f==='all'?bg:'var(--surface)'};color:${f==='all'?fg:bg};border:1.5px solid ${f==='all'?bg:bg+'40'};transition:all .12s;letter-spacing:.2px">${l}</button>`).join('');
+}
+
+function renderEventsDisplay(){
+  const el=document.getElementById('evs-display');
+  const byP={A:[],B:[],C:[],D:[]};EVENTS.forEach(e=>byP[e.pillar].push(e));Object.keys(byP).forEach(k=>byP[k].sort((a,b)=>a.code.localeCompare(b.code)));
+  const PNAMES={A:"Engagement",B:"Monetization",C:"Social",D:"Progression"};
+  el.innerHTML=['A','B','C','D'].map(code=>{
+    return`<div class="evs-pillar" data-pillar="${code}" style="margin-bottom:18px">
+      <div style="padding:11px 18px;background:${PC[code]};border-radius:var(--r) var(--r) 0 0;display:flex;align-items:center;gap:10px">
+        <span style="font-family:var(--ff-d);font-size:18px;color:rgba(255,255,255,.85);font-weight:600">${code}</span>
+        <span style="font-weight:700;font-size:12.5px;color:#fff">${PNAMES[code]} Events</span>
+        <span style="font-size:10.5px;color:rgba(255,255,255,.45);margin-left:auto">${byP[code].length} events</span>
+      </div>
+      <div style="background:${PCL[code]}40;padding:10px 12px;border:1px solid var(--glass-border);border-top:none;border-radius:0 0 var(--r) var(--r)">${byP[code].map(e=>`<div class="ev-wrap" id="ev-${e.code}">
+        <div class="ev-hd" onclick="toggleEv('${e.code}')">
+          <div class="ev-code" style="background:${PC[code]}">${e.code}</div>
+          <div class="ev-main">
+            <div class="ev-name">${e.name}</div>
+            <div class="ev-chips">
+              ${chip(e.layer,LBG[e.layer],LC[e.layer])}
+              ${chip(e.obj1,PCL[e.pillar],OBJ_C[e.obj1]||'var(--ink3)')}
+              ${e.dur!=='Evergreen'&&e.dur!=='Lifecycle-triggered'?chip(e.dur,'rgba(0,0,0,.04)','var(--ink3)'):''}
+              ${chipLink(e.arch1,'rgba(0,0,0,.04)','var(--ink2)','arch-'+e.arch1.toLowerCase())}
+              ${e.wh!=='—'?e.wh.split('+').map(c=>chipLink(c.trim().split(' ')[0],'rgba(22,101,52,.08)','#166534','cd-'+c.trim().split(' ')[0])).join(''):''}
+              ${e.bh!=='—'?e.bh.split('+').map(c=>chipLink(c.trim().split(' ')[0],'rgba(153,27,27,.08)','#991B1B','cd-'+c.trim().split(' ')[0])).join(''):''}
+            </div>
+          </div>
+          <div class="ev-arr">+</div>
+        </div>
+        <div class="ev-body" id="evb-${e.code}">
+          <div class="ev-col"><div class="ev-col-lbl">What & How</div><div class="ev-col-body" style="line-height:1.8">${e.desc.replace(/<br>/g,'<br><br>')}</div></div>
+          <div class="ev-col"><div class="ev-col-lbl">Psychology & KPI</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:var(--ink2);margin-bottom:8px"><div><strong style="color:var(--ink)">Primary:</strong> ${e.arch1}</div><div><strong style="color:var(--ink)">Secondary:</strong> ${e.arch2}</div></div><div class="hat-chips" style="margin-bottom:10px">${e.wh!=='—'?chip('⬜ '+e.wh,'rgba(22,101,52,.06)','#166534'):''} ${e.bh!=='—'?chip('⬛ '+e.bh,'rgba(153,27,27,.06)','#991B1B'):''}</div><div class="kpill ok">✓ <strong>Healthy:</strong> ${e.h}</div><div class="kpill warn">⚠ <strong>Warning:</strong> ${e.w}</div></div>
+          <div class="ev-col"><div class="ev-col-lbl">Examples</div><div class="ev-col-body" style="margin-bottom:12px">${e.ex}</div><div class="ev-col-lbl">Design Principles</div><div class="ev-col-body">${e.pr}</div></div>
+        </div>
+      </div>`).join('')}</div>
+    </div>`}).join('');
+}
+
+function filterEvs(p){
+  document.querySelectorAll('.evs-pillar').forEach(el=>el.style.display=(p==='all'||el.dataset.pillar===p)?'block':'none');
+  document.querySelectorAll('[id^="evf-"]').forEach(b=>{const bid=b.id.replace('evf-','');const isA=(bid===p);if(isA){b.style.background=bid==='all'?'var(--ink)':PC[bid];b.style.color=bid==='all'?'#fff':'#fff';b.style.borderColor=bid==='all'?'var(--ink)':PC[bid]}else{b.style.background='var(--surface)';b.style.color=bid==='all'?'var(--ink)':(PC[bid]||'var(--ink3)');b.style.borderColor=bid==='all'?'var(--ink)20':(PC[bid]||'var(--ink3)')+'40'}});
+}
+function toggleEv(code){const w=document.getElementById('ev-'+code),b=document.getElementById('evb-'+code);const o=b.classList.contains('open');document.querySelectorAll('.ev-body.open').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.ev-wrap.open').forEach(x=>x.classList.remove('open'));if(!o){w.classList.add('open');b.classList.add('open')}}
+function openEvent(code){const e=EVENTS.find(x=>x.code===code);if(e)filterEvs(e.pillar);setTimeout(()=>toggleEv(code),80)}
+
+// ASSESSMENT
+function renderAssessment(){
+  document.getElementById('ass-table').innerHTML=`<table><thead><tr><th>Event</th><th>Layer</th><th>Complexity</th><th>Dependencies</th><th>Template?</th><th>Monthly</th><th>Note</th></tr></thead><tbody>${ASSESSMENT.map((a,i)=>{const ev=EVENTS.find(e=>e.code===a.code);const p=ev?ev.pillar:'A';return`<tr style="background:${i%2===0?'rgba(255,255,255,.5)':'rgba(255,255,255,.25)'}"><td><span style="font-family:var(--ff-m);font-size:9.5px;padding:2px 6px;border-radius:4px;background:${PCL[p]};color:${PC[p]};margin-right:5px">${a.code}</span>${ev?ev.name:''}</td><td><span style="font-size:9.5px;padding:2px 6px;border-radius:4px;background:${LBG[ev?.layer||'DAILY']};color:${LC[ev?.layer||'DAILY']};font-weight:600">${ev?.layer||''}</span></td><td style="text-align:center">${dot(a.complexity)} ${a.complexity}</td><td>${a.dep.map(d=>`<span class="dep-tag">${d}</span>`).join('')}</td><td style="font-size:11.5px">${a.template}</td><td style="font-family:var(--ff-m);font-size:10.5px">${a.monthly}</td><td style="font-size:11.5px;color:var(--ink3)">${a.note}</td></tr>`}).join('')}</tbody></table>`;
+}
+
+// KPI
+let activeKpi='Monetization';
+function renderKPISel(){document.getElementById('kpi-sel').innerHTML=KPI_GROUPS.map(g=>`<button class="kpi-btn" onclick="setKpi('${g.label}')" style="background:${g.label===activeKpi?g.color:'var(--surface)'};color:${g.label===activeKpi?'#fff':g.color};border:1.5px solid ${g.color}30">${g.label}</button>`).join('')}
+function setKpi(l){activeKpi=l;renderKPISel();renderKPIContent()}
+function renderKPIContent(){const g=KPI_GROUPS.find(x=>x.label===activeKpi);document.getElementById('kpi-content').innerHTML=g.items.map(k=>`<div class="kpi-card"><div class="kpi-hd"><span style="font-weight:700;font-size:13.5px">${k.name}</span><span style="background:${g.color}12;color:${g.color};border-radius:100px;padding:2px 10px;font-size:10.5px;font-weight:700">${g.label}</span></div><div class="kpi-body"><div><div class="kpi-sub-lbl">Formula</div><div class="formula">${k.formula}</div></div><div><div class="kpi-sub-lbl">Benchmark</div><p style="font-size:12px;color:var(--ink2);line-height:1.6">${k.bench}</p></div><div><div class="kpi-sub-lbl">🚩 Red Flag</div><p style="font-size:12px;color:var(--gb);line-height:1.6">${k.flag}</p></div><div><div class="kpi-sub-lbl">How to Use</div><p style="font-size:12px;color:var(--ink2);line-height:1.6">${k.use}</p></div></div></div>`).join('')}
+
+// REFERENCE
+function renderCompetitors(){document.getElementById('comp-sel').innerHTML=COMPETITORS.map((c,i)=>`<button class="comp-btn" data-i="${i}" onclick="setComp(${i})" style="color:${c.color};border-color:${c.color}40;${i===0?`background:${c.color};color:#fff`:''}">${c.name}</button>`).join('');renderComp(0)}
+function setComp(i){COMPETITORS.forEach((c,j)=>{const b=document.querySelector(`[data-i="${j}"]`);if(!b)return;b.style.background=j===i?c.color:'var(--surface)';b.style.color=j===i?'#fff':c.color});renderComp(i)}
+function renderComp(i){const c=COMPETITORS[i];document.getElementById('comp-content').innerHTML=`<div class="card" style="border-top:3px solid ${c.color};padding:16px 18px 8px"><div style="font-family:var(--ff-d);font-size:18px;font-weight:600;color:${c.color};margin-bottom:2px">${c.name}</div><div style="font-size:11px;color:var(--ink3);margin-bottom:14px">${c.tagline}</div>${c.mechs.map(m=>`<div class="comp-mech"><div class="cm-hd" style="background:${c.bg};border-left:3px solid ${c.color}30"><div style="width:5px;height:5px;border-radius:50%;background:${c.color};flex-shrink:0"></div><div style="font-weight:700;font-size:13px">${m.name}</div></div><div class="cm-body"><div><div class="cm-sub-lbl">How it works</div><p style="color:var(--ink2);font-size:12px;line-height:1.6">${m.how}</p></div><div><div class="cm-sub-lbl">Revenue</div><p style="color:var(--ink2);font-size:12px;line-height:1.6">${m.revenue}</p><div style="margin-top:8px"><div class="cm-sub-lbl">Insight</div><p style="color:var(--ink2);font-size:12px;line-height:1.6;font-style:italic">${m.insight}</p></div></div></div><div class="cm-foot"><div class="cm-sub-lbl">Flow</div><div class="cm-flow">${m.flow}</div></div></div>`).join('')}</div>`}
+function renderFM(){document.getElementById('fm-content').innerHTML=FASHION_MECHANICS.map((m,i)=>`<div class="fm-wrap" id="fm-${i}"><div class="fm-hd" onclick="toggleFm(${i})"><div><div style="font-weight:700;font-size:13.5px">${m.name}</div><div style="font-size:10.5px;color:var(--ink4);margin-top:1px">→ ${m.maps}</div></div><div id="fmi-${i}" style="font-size:16px;color:var(--ink4);transition:transform .15s">+</div></div><div class="fm-body" id="fmb-${i}"><div><div class="fm-sub-lbl">Variants</div>${m.variants.map(v=>`<div style="display:flex;gap:6px;font-size:12px;color:var(--ink2);line-height:1.5;margin-bottom:4px"><span style="color:var(--ink4)">·</span>${v}</div>`).join('')}</div><div><div class="fm-sub-lbl">Features</div><p style="font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:8px">${m.features}</p><div class="fm-sub-lbl">Flow</div><p style="font-size:11px;font-family:var(--ff-m);color:var(--ink2);line-height:1.6">${m.run}</p></div><div><div class="fm-sub-lbl">Notes</div><p style="font-size:12px;color:var(--ink2);line-height:1.6">${m.notes}</p></div></div></div>`).join('')}
+function toggleFm(i){const b=document.getElementById('fmb-'+i),ic=document.getElementById('fmi-'+i);const o=b.classList.contains('open');document.querySelectorAll('.fm-body.open').forEach(x=>x.classList.remove('open'));document.querySelectorAll('[id^="fmi-"]').forEach(x=>{x.style.transform='';x.textContent='+'});if(!o){b.classList.add('open');ic.style.transform='rotate(45deg)'}}
+
+// TABS
+function switchTab(t){document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));const btn=document.querySelector(`[data-t="${t}"]`),pane=document.getElementById('p-'+t);if(btn)btn.classList.add('on');if(pane)pane.classList.add('on')}
+document.querySelectorAll('.tb').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.t)));
+
+// EVENT BUILDER
+const BUILDER_SECTIONS=[
+{title:"① Identity",color:"var(--gc)",fields:[
+{label:"Event Code",hint:"e.g. A1, B3, B8",type:"text"},
+{label:"Event Name",hint:"Internal + player-facing name",type:"text"},
+{label:"Event Type",hint:"Select from 18 event types",type:"select",options:["A1 Styling Challenge","A2 Daily Login","A3 Daily Quests","A4 Themed/Seasonal","A5 Story/Narrative","A6 Collection Craft","B1 Gacha","B2 Hell Event","B3 Flash Sale","B4 Bundle/Starter","B5 Recharge","B6 Premium Tryout","B8 Rolling Offers","C1 Co-op/Guild","C2 Tournament","C3 Collaboration","D1 Season Pass","D2 Series","D3 VIP/Loyalty Tier"]},
+{label:"Pillar",hint:"A Engagement / B Monetization / C Social / D Progression",type:"select",options:["A — Engagement","B — Monetization","C — Social","D — Progression"]},
+{label:"Layer",hint:"Operational cadence",type:"select",options:["L1 DAILY","L2 WEEKLY","L3 MONTHLY","L4 LIFECYCLE"]},
+]},
+{title:"② Schedule & Scope",color:"#B45309",fields:[
+{label:"Start Date",hint:"YYYY-MM-DD",type:"text"},
+{label:"End Date",hint:"YYYY-MM-DD",type:"text"},
+{label:"Duration",hint:"e.g. 7 days, 24h, Evergreen",type:"text"},
+{label:"Titles",hint:"Which of 10 titles? All / specific titles",type:"text"},
+{label:"Regions",hint:"All / specific regions (e.g. SEA, MENA, NA)",type:"text"},
+{label:"Overlap Check",hint:"Which other events run concurrently? (avoid >3 events same layer)",type:"textarea"},
+]},
+{title:"③ Content & CW",color:"var(--gd)",fields:[
+{label:"Theme / Narrative",hint:"e.g. Lunar New Year, Ocean Fantasy, Collab: Brand X",type:"text"},
+{label:"CW Items Required",hint:"New items to create? Or reuse existing? List item IDs or descriptions",type:"textarea"},
+{label:"Art Package",hint:"Banner, popup, icon, background. Shared across titles or title-specific?",type:"textarea"},
+{label:"Localization",hint:"Languages needed. Vietnamese, English, others?",type:"text"},
+]},
+{title:"④ Mechanic & Rules",color:"var(--ga)",fields:[
+{label:"Entry Condition",hint:"Level requirement? Guild membership? F2P accessible?",type:"text"},
+{label:"Core Mechanic",hint:"Step-by-step: what does player DO? (e.g. pull → random piece → pity at 5)",type:"textarea"},
+{label:"Progression Structure",hint:"Milestones/nodes/tracks. How many stages? What unlocks what?",type:"textarea"},
+{label:"Currency Used",hint:"Coins (soft) / Diamonds (premium) / Real money / Event-specific token",type:"text"},
+{label:"Reward Table",hint:"Per milestone: what player receives (items, currency, XP). Include free vs. paid tracks if applicable",type:"textarea"},
+{label:"Difficulty Curve",hint:"Easy start → hard end? Flat? Escalating cost per node?",type:"text"},
+]},
+{title:"⑤ Monetization",color:"var(--gb)",fields:[
+{label:"Price Points",hint:"IAP prices if applicable (e.g. $0.99 → $4.99 → $14.99 chain)",type:"text"},
+{label:"Free vs. Paid Split",hint:"How much is achievable free? Where does paywall start?",type:"text"},
+{label:"Concurrent Events",hint:"Which B5 Recharge / B3 Flash runs alongside? (for double-dip)",type:"text"},
+{label:"Pity / Safety Net",hint:"Is there guaranteed outcome? At what pull/spend threshold?",type:"text"},
+]},
+{title:"⑥ Target & Psychology",color:"#0E7490",fields:[
+{label:"Primary Archetype",hint:"Collector / Achiever / Competitor / Socialite / Explorer / Bargain Hunter",type:"select",options:["Collector","Achiever","Competitor","Socialite","Explorer","Bargain Hunter"]},
+{label:"Secondary Archetype",hint:"Who else benefits?",type:"select",options:["Collector","Achiever","Competitor","Socialite","Explorer","Bargain Hunter"]},
+{label:"White Hat CDs",hint:"Which CD1–5 drives? (e.g. CD2 Accomplishment + CD3 Creativity)",type:"text"},
+{label:"Black Hat CDs",hint:"Which CD6–8? (e.g. CD6 Scarcity + CD8 Loss Avoidance). Max 40% weekly!",type:"text"},
+]},
+{title:"⑦ KPI & Success Criteria",color:"var(--gb)",fields:[
+{label:"Healthy Signal",hint:"What metrics indicate success? (e.g. Participation >40% DAU, CVR >5%)",type:"text"},
+{label:"Warning Signal",hint:"What metrics indicate failure? (e.g. CVR <2%, drop-off Day 3)",type:"text"},
+{label:"Baseline Comparison",hint:"7-day pre-event avg for revenue, DAU, sessions",type:"text"},
+{label:"Post-Event Check",hint:"Hangover ratio D+1→D+3? Re-engagement needed?",type:"text"},
+]},
+{title:"⑧ Ops & QA",color:"var(--ink3)",fields:[
+{label:"Template Reusable?",hint:"Yes (rotate content) / No (fully custom). If yes — what changes per rotation?",type:"text"},
+{label:"Dependencies",hint:"What must exist first? (e.g. Guild system, Pity timer, CW tags, Sub-task mode)",type:"textarea"},
+{label:"QA Checklist",hint:"What to test? Reward delivery, timer accuracy, cross-title sync, edge cases",type:"textarea"},
+{label:"Rollback Plan",hint:"What if event breaks? Kill switch? Compensation plan?",type:"text"},
+]}
+];
+
+function renderBuilder(){
+  document.getElementById('builder-form').innerHTML=BUILDER_SECTIONS.map(s=>`<div class="card" style="margin-bottom:14px;overflow:hidden"><div style="padding:12px 18px;background:rgba(0,0,0,.02);border-bottom:1px solid var(--glass-border);display:flex;align-items:center;gap:8px"><div style="width:4px;height:20px;border-radius:2px;background:${s.color}"></div><span style="font-weight:700;font-size:13px">${s.title}</span></div><div style="padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px">${s.fields.map(f=>`<div style="${f.type==='textarea'?'grid-column:span 2':''}"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">${f.label}</div>${f.type==='select'?`<select style="width:100%;padding:8px 10px;border:1px solid var(--glass-border);border-radius:var(--r-sm);font-family:var(--ff-b);font-size:12px;background:var(--surface);color:var(--ink)"><option value="">— Select —</option>${f.options.map(o=>`<option>${o}</option>`).join('')}</select>`:f.type==='textarea'?`<textarea style="width:100%;padding:8px 10px;border:1px solid var(--glass-border);border-radius:var(--r-sm);font-family:var(--ff-b);font-size:12px;min-height:60px;resize:vertical;background:var(--surface);color:var(--ink)" placeholder="${f.hint}"></textarea>`:`<input type="text" style="width:100%;padding:8px 10px;border:1px solid var(--glass-border);border-radius:var(--r-sm);font-family:var(--ff-b);font-size:12px;background:var(--surface);color:var(--ink)" placeholder="${f.hint}"/>`}</div>`).join('')}</div></div>`).join('');
+}
+
+// INIT
+renderCDs();renderArchGrid();renderMatrix();renderMetrics();
+renderEventsFilter();renderEventsDisplay();filterEvs('all');
+renderAssessment();renderKPISel();renderKPIContent();
+renderCompetitors();renderFM();renderBuilder();
+</script>
+</body>
+</html>
